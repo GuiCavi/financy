@@ -1,5 +1,5 @@
 import { prisma } from "../../prisma/prisma";
-import { UserModel } from "../models/user";
+import { UserModel } from "../models/user.model";
 
 export class UserService {
   async findUser(id: string): Promise<UserModel> {
