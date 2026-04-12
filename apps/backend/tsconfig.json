@@ -1,0 +1,14 @@
+{
+  "extends": "@financy/typescript-config/base.json",
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
