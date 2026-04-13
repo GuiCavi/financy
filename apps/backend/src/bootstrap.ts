@@ -10,13 +10,14 @@ import { env } from "../config/env";
 
 import { buildContext } from "./graphql/context";
 import { AuthResolver } from "./resolvers/auth.resolver";
+import { CategoryResolver } from "./resolvers/category.resolver";
 import { UserResolver } from "./resolvers/user.resolver";
 
 export async function bootstrap() {
   const app = express();
 
   const schema = await buildSchema({
-    resolvers: [AuthResolver, UserResolver],
+    resolvers: [AuthResolver, UserResolver, CategoryResolver],
     validate: false,
     emitSchemaFile: "./schema.graphql",
   });
