@@ -31,15 +31,17 @@ export class TransactionResolver {
   async updateTransaction(
     @Arg("data", () => UpdateTransactionInput) data: UpdateTransactionInput,
     @Arg("id", () => String) id: string,
+    @WithCurrentUser() user: UserModel,
   ): Promise<TransactionModel> {
-    return this.transactionService.updateTransaction(data, id);
+    return this.transactionService.updateTransaction(data, id, user.id);
   }
 
   @Mutation(() => Boolean)
   async deleteTransaction(
     @Arg("id", () => String) id: string,
+    @WithCurrentUser() user: UserModel,
   ): Promise<boolean> {
-    await this.transactionService.deleteTransaction(id);
+    await this.transactionService.deleteTransaction(id, user.id);
     return true;
   }
 
@@ -53,8 +55,9 @@ export class TransactionResolver {
   @Query(() => [TransactionModel])
   async listTransactionsByCategory(
     @Arg("categoryId", () => String) categoryId: string,
+    @WithCurrentUser() user: UserModel,
   ): Promise<TransactionModel[]> {
-    return this.transactionService.listTransactionsByCategory(categoryId);
+    return this.transactionService.listTransactionsByCategory(categoryId, user.id);
   }
 
   @FieldResolver(() => UserModel)
