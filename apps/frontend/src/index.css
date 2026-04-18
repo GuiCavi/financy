@@ -86,6 +86,51 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+@theme {
+  --color-financy-blue-dark: oklch(48.821% 0.21724 264.392);
+  --color-financy-blue-base: oklch(54.616% 0.21529 262.896);
+  --color-financy-blue-light: oklch(93.192% 0.0317 255.644);
+
+  --color-financy-purple-dark: oklch(49.552% 0.23697 301.923);
+  --color-financy-purple-base: oklch(55.754% 0.2526 302.319);
+  --color-financy-purple-light: oklch(94.643% 0.03284 307.067);
+
+  --color-financy-pink-dark: oklch(52.457% 0.19898 3.94);
+  --color-financy-pink-base: oklch(59.163% 0.21802 0.566);
+  --color-financy-pink-light: oklch(94.82% 0.02768 342.047);
+
+  --color-financy-red-dark: oklch(50.54% 0.19049 27.505);
+  --color-financy-red-base: oklch(57.707% 0.21516 27.312);
+  --color-financy-red-light: oklch(93.564% 0.03087 17.529);
+
+  --color-financy-orange-dark: oklch(55.341% 0.17385 38.39);
+  --color-financy-orange-base: oklch(64.605% 0.1943 41.103);
+  --color-financy-orange-light: oklch(95.42% 0.03705 75.125);
+
+  --color-financy-yellow-dark: oklch(55.377% 0.12064 66.435);
+  --color-financy-yellow-base: oklch(68.063% 0.14223 75.832);
+  --color-financy-yellow-light: oklch(95.695% 0.05331 102.778);
+
+  --color-financy-green-dark: oklch(52.731% 0.13709 150.091);
+  --color-financy-green-base: oklch(62.706% 0.1699 149.234);
+  --color-financy-green-light: oklch(96.158% 0.03525 157.192);
+
+  --color-financy-feedback-danger: oklch(63.681% 0.20784 25.315);
+  --color-financy-feedback-success: oklch(66.127% 0.14746 158.701);
+
+  --color-financy-neutral-black: oklch(0% 0 0);
+  --color-financy-neutral-white: oklab(100% 0 0);
+
+  --color-financy-grayscale-100: oklch(21.009% 0.03179 264.678);
+  --color-financy-grayscale-200: oklch(37.293% 0.03067 259.757);
+  --color-financy-grayscale-300: oklch(44.611% 0.02636 256.837);
+  --color-financy-grayscale-400: oklch(55.102% 0.02343 264.389);
+  --color-financy-grayscale-500: oklch(71.366% 0.01926 261.373);
+  --color-financy-grayscale-600: oklch(87.168% 0.00944 258.479);
+  --color-financy-grayscale-700: oklch(92.758% 0.00592 264.656);
+  --color-financy-grayscale-800: oklch(98.164% 0.00181 249.244);
+}
+
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
