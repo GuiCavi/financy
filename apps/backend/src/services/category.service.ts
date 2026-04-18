@@ -66,4 +66,18 @@ export class CategoryService {
       where: { id },
     });
   }
+
+  async findCategory(id: string): Promise<CategoryModel> {
+    const category = await prisma.category.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!category) {
+      throw new Error("Categoria não encontrada");
+    }
+
+    return category;
+  }
 }
