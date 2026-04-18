@@ -7,6 +7,7 @@ type CategoryModel {
   createdAt: DateTimeISO!
   id: String!
   name: String!
+  transactions: [TransactionModel!]
   updatedAt: DateTimeISO!
   user: UserModel
   userId: String!
@@ -14,6 +15,14 @@ type CategoryModel {
 
 input CreateCategoryInput {
   name: String!
+}
+
+input CreateTransactionInput {
+  amount: Float!
+  categoryId: String!
+  date: DateTimeISO!
+  description: String!
+  type: String!
 }
 
 """
@@ -34,15 +43,20 @@ type LoginOutput {
 
 type Mutation {
   createCategory(data: CreateCategoryInput!): CategoryModel!
+  createTransaction(data: CreateTransactionInput!): TransactionModel!
   deleteCategory(id: String!): Boolean!
+  deleteTransaction(id: String!): Boolean!
   login(data: LoginInput!): LoginOutput!
   register(data: RegisterInput!): RegisterOutput!
   updateCategory(data: UpdateCategoryInput!, id: String!): CategoryModel!
+  updateTransaction(data: UpdateTransactionInput!, id: String!): TransactionModel!
 }
 
 type Query {
   getUser(id: String!): UserModel!
   listCategories: [CategoryModel!]!
+  listTransactions: [TransactionModel!]!
+  listTransactionsByCategory(categoryId: String!): [TransactionModel!]!
 }
 
 input RegisterInput {
@@ -57,8 +71,30 @@ type RegisterOutput {
   user: UserModel!
 }
 
+type TransactionModel {
+  amount: Float!
+  category: CategoryModel
+  categoryId: String!
+  createdAt: DateTimeISO!
+  date: DateTimeISO!
+  description: String!
+  id: String!
+  type: String!
+  updatedAt: DateTimeISO!
+  user: UserModel
+  userId: String!
+}
+
 input UpdateCategoryInput {
   name: String!
+}
+
+input UpdateTransactionInput {
+  amount: Float
+  categoryId: String
+  date: DateTimeISO
+  description: String
+  type: String
 }
 
 type UserModel {
