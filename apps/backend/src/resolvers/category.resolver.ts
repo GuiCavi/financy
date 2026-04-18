@@ -58,12 +58,18 @@ export class CategoryResolver {
   }
 
   @FieldResolver(() => [TransactionModel])
-  async transactions(@Root() parent: CategoryModel): Promise<TransactionModel[]> {
-    return this.transationService.listTransactionsByCategory(parent.id);
+  async transactions(
+    @Root() parent: CategoryModel,
+    @WithCurrentUser() user: UserModel,
+  ): Promise<TransactionModel[]> {
+    return this.transationService.listTransactionsByCategory(parent.id, user.id);
   }
 
   @FieldResolver(() => Number)
-  async totalAmount(@Root() parent: CategoryModel): Promise<number> {
-    return this.transationService.sumAmountByCategory(parent.id);
+  async totalAmount(
+    @Root() parent: CategoryModel ,
+    @WithCurrentUser() user: UserModel,
+  ): Promise<number> {
+    return this.transationService.sumAmountByCategory(parent.id, user.id);
   }
 }
