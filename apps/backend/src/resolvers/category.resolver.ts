@@ -54,4 +54,9 @@ export class CategoryResolver {
   async user(@Root() parent: CategoryModel): Promise<UserModel> {
     return this.userService.findUser(parent.userId);
   }
+
+  @FieldResolver(() => [TransactionModel])
+  async transactions(@Root() parent: CategoryModel): Promise<TransactionModel[]> {
+    return this.transationService.listTransactionsByCategory(parent.id);
+  }
 }
