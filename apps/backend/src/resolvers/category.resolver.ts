@@ -4,8 +4,10 @@ import { CreateCategoryInput, UpdateCategoryInput } from "../dtos/input/category
 import { WithCurrentUser } from "../graphql/decorators/user.decorator";
 import { IsAuth } from "../middlewares/auth.middleware";
 import { CategoryModel } from "../models/category.model";
+import { TransactionModel } from "../models/transaction.model";
 import { UserModel } from "../models/user.model";
 import { CategoryService } from "../services/category.service";
+import { TransactionService } from "../services/transaction.service";
 import { UserService } from "../services/user.service";
 
 @Resolver(() => CategoryModel)
@@ -14,6 +16,8 @@ export class CategoryResolver {
   private readonly categoryService: CategoryService = new CategoryService();
 
   private readonly userService: UserService = new UserService();
+
+  private readonly transationService: TransactionService = new TransactionService();
 
   @Mutation(() => CategoryModel)
   async createCategory(
