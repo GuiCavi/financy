@@ -1,18 +1,20 @@
-import js from "@eslint/js";
+import eslint from "@eslint/js";
+import { defineConfig } from "eslint/config";
 import eslintConfigPrettier from "eslint-config-prettier";
-import tseslint from "typescript-eslint";
-import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginReact from "eslint-plugin-react";
+import pluginReactHooks from "eslint-plugin-react-hooks";
 import globals from "globals";
+import tseslint from "typescript-eslint";
+
 import { config as baseConfig } from "./base.js";
 
 /**
  * A custom ESLint configuration for libraries that use React.
  *
  * @type {import("eslint").Linter.Config[]} */
-export const config = [
+const config = [
   ...baseConfig,
-  js.configs.recommended,
+  eslint.configs.recommended,
   eslintConfigPrettier,
   ...tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
@@ -37,3 +39,5 @@ export const config = [
     },
   },
 ];
+
+export default defineConfig(config);

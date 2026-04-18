@@ -12,7 +12,7 @@ import { config as turboConfig } from "./configs/turbo.js";
  * @type {import("eslint").Linter.Config[]}
  * */
 export const config = [
-  globalIgnores(["dist/**"]),
+  globalIgnores(["dist"]),
   // {
   //   name: "matching files definition",
   //   files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
