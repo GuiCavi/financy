@@ -16,15 +16,16 @@ export class TransactionService {
     });
   }
 
-  async updateTransaction(data: UpdateTransactionInput, id: string) {
+  async updateTransaction(data: UpdateTransactionInput, id: string, userId: string) {
     const existingTransaction = await prisma.transaction.findUnique({
       where: {
         id,
+        userId,
       },
     });
 
     if (!existingTransaction) {
-      throw new Error("Categoria não encontrada");
+      throw new Error("Transação não encontrada");
     }
 
     return prisma.transaction.update({
@@ -47,23 +48,25 @@ export class TransactionService {
     });
   }
 
-  async listTransactionsByCategory(categoryId: string): Promise<TransactionModel[]> {
+  async listTransactionsByCategory(categoryId: string, userId: string): Promise<TransactionModel[]> {
     return prisma.transaction.findMany({
       where: {
         categoryId,
+        userId,
       },
     });
   }
 
-  async deleteTransaction(id: string) {
+  async deleteTransaction(id: string, userId: string) {
     const existingTransaction = await prisma.transaction.findUnique({
       where: {
         id,
+        userId,
       },
     });
 
     if (!existingTransaction) {
-      throw new Error("Categoria não encontrada");
+      throw new Error("Transação não encontrada");
     }
 
     return prisma.transaction.delete({
@@ -71,8 +74,8 @@ export class TransactionService {
     });
   }
 
-  async sumAmountByCategory(categoryId: string): Promise<number> {
-    const transactions = await this.listTransactionsByCategory(categoryId);
+  async sumAmountByCategory(categoryId: string, userId: string): Promise<number> {
+    const transactions = await this.listTransactionsByCategory(categoryId, userId);
     return transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
   }
 }
