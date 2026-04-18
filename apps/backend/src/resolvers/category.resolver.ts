@@ -31,15 +31,17 @@ export class CategoryResolver {
   async updateCategory(
     @Arg("data", () => UpdateCategoryInput) data: UpdateCategoryInput,
     @Arg("id", () => String) id: string,
+    @WithCurrentUser() user: UserModel,
   ): Promise<CategoryModel> {
-    return this.categoryService.updateCategory(data, id);
+    return this.categoryService.updateCategory(data, id, user.id);
   }
 
   @Mutation(() => Boolean)
   async deleteCategory(
     @Arg("id", () => String) id: string,
+    @WithCurrentUser() user: UserModel,
   ): Promise<boolean> {
-    await this.categoryService.deleteCategory(id);
+    await this.categoryService.deleteCategory(id, user.id);
     return true;
   }
 

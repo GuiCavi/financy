@@ -24,10 +24,11 @@ export class CategoryService {
     return category;
   }
 
-  async updateCategory(data: UpdateCategoryInput, id: string) {
+  async updateCategory(data: UpdateCategoryInput, id: string, userId: string) {
     const existingCategory = await prisma.category.findUnique({
       where: {
         id,
+        userId,
       },
     });
 
@@ -51,10 +52,11 @@ export class CategoryService {
     });
   }
 
-  async deleteCategory(id: string) {
+  async deleteCategory(id: string, userId: string) {
     const existingCategory = await prisma.category.findUnique({
       where: {
         id,
+        userId,
       },
     });
 
