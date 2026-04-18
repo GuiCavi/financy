@@ -70,4 +70,9 @@ export class TransactionService {
       where: { id },
     });
   }
+
+  async sumAmountByCategory(categoryId: string): Promise<number> {
+    const transactions = await this.listTransactionsByCategory(categoryId);
+    return transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
+  }
 }
