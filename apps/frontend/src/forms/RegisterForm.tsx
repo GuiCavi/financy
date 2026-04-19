@@ -6,9 +6,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { Separator } from "@/components/ui/separator";
+import { useViewPassword } from "@/hooks/use-view-password";
 
 export function RegisterForm({ onSubmit }: { onSubmit: () => void }) {
   const navigate = useNavigate();
+  const { fieldRef, toggleViewPassword } = useViewPassword();
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col items-center">
@@ -19,7 +21,7 @@ export function RegisterForm({ onSubmit }: { onSubmit: () => void }) {
         <Field className="max-w-sm">
           <FieldLabel htmlFor="inline-start-input">Nome completo</FieldLabel>
           <InputGroup>
-            <InputGroupInput type="text" id="inline-start-input" placeholder="Seu nome completo" />
+            <InputGroupInput type="text" id="inline-start-input" placeholder="Seu nome completo" autoComplete="name" />
             <InputGroupAddon align="inline-start">
               <MailIcon className="text-muted-foreground" />
             </InputGroupAddon>
@@ -28,7 +30,7 @@ export function RegisterForm({ onSubmit }: { onSubmit: () => void }) {
         <Field className="max-w-sm">
           <FieldLabel htmlFor="inline-start-input">E-mail</FieldLabel>
           <InputGroup>
-            <InputGroupInput type="email" id="inline-start-input" placeholder="mail@exemplo.com" />
+            <InputGroupInput type="email" id="inline-start-input" placeholder="mail@exemplo.com" autoComplete="email" />
             <InputGroupAddon align="inline-start">
               <MailIcon className="text-muted-foreground" />
             </InputGroupAddon>
@@ -37,11 +39,11 @@ export function RegisterForm({ onSubmit }: { onSubmit: () => void }) {
         <Field className="max-w-sm">
           <FieldLabel htmlFor="inline-start-input">Senha</FieldLabel>
           <InputGroup>
-            <InputGroupInput type="password" id="inline-start-input" placeholder="Digite sua senha" />
+            <InputGroupInput ref={fieldRef} type="password" id="inline-start-input" placeholder="Digite sua senha" autoComplete="new-password" />
             <InputGroupAddon align="inline-start">
               <MailIcon className="text-muted-foreground" />
             </InputGroupAddon>
-            <InputGroupAddon align="inline-end">
+            <InputGroupAddon align="inline-end" onClick={toggleViewPassword} className="cursor-pointer">
               <EyeClosed />
             </InputGroupAddon>
           </InputGroup>
