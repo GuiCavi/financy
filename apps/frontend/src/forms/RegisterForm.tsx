@@ -81,7 +81,6 @@ export function RegisterForm({ onSubmit }: { onSubmit: (value: RegisterSchema) =
                 <InputGroup>
                   <InputGroupInput
                     type="email"
-                    disabled
                     id="email"
                     name="email"
                     value={field.state.value}

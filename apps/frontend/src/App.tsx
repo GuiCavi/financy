@@ -3,6 +3,7 @@ import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import logoImg from "@/assets/Logo.svg";
 import { RegisterForm } from "@/forms/RegisterForm";
 import { Login } from "@/pages/Login";
+import { useAuthStore } from "@/stores/auth";
 
 function AuthLayout() {
   return (
@@ -18,9 +19,11 @@ function AuthLayout() {
 }
 
 function CreateAccount() {
+  const { signup } = useAuthStore();
+
   return (
     <div>
-      <RegisterForm onSubmit={console.log} />
+      <RegisterForm onSubmit={(value) => signup({ name: value.fullName, email: value.email, password: value.password })} />
     </div>
   );
 }
