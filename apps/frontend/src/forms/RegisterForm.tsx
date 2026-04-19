@@ -1,4 +1,4 @@
-import { EyeClosed, LogIn, MailIcon } from "lucide-react";
+import { Eye, EyeClosed, LockIcon, LogIn, MailIcon } from "lucide-react";
 import { useNavigate } from "react-router";
 
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,7 @@ import { useViewPassword } from "@/hooks/use-view-password";
 
 export function RegisterForm({ onSubmit }: { onSubmit: () => void }) {
   const navigate = useNavigate();
-  const { fieldRef, toggleViewPassword } = useViewPassword();
+  const { fieldRef, toggleViewPassword, eyeOpen } = useViewPassword();
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col items-center">
@@ -19,32 +19,32 @@ export function RegisterForm({ onSubmit }: { onSubmit: () => void }) {
 
       <FieldGroup className="mt-8">
         <Field className="max-w-sm">
-          <FieldLabel htmlFor="inline-start-input">Nome completo</FieldLabel>
+          <FieldLabel htmlFor="full-name">Nome completo</FieldLabel>
           <InputGroup>
-            <InputGroupInput type="text" id="inline-start-input" placeholder="Seu nome completo" autoComplete="name" />
+            <InputGroupInput type="text" id="full-name" placeholder="Seu nome completo" autoComplete="name" />
             <InputGroupAddon align="inline-start">
               <MailIcon className="text-muted-foreground" />
             </InputGroupAddon>
           </InputGroup>
         </Field>
         <Field className="max-w-sm">
-          <FieldLabel htmlFor="inline-start-input">E-mail</FieldLabel>
+          <FieldLabel htmlFor="email">E-mail</FieldLabel>
           <InputGroup>
-            <InputGroupInput type="email" id="inline-start-input" placeholder="mail@exemplo.com" autoComplete="email" />
+            <InputGroupInput type="email" id="email" placeholder="mail@exemplo.com" autoComplete="email" />
             <InputGroupAddon align="inline-start">
               <MailIcon className="text-muted-foreground" />
             </InputGroupAddon>
           </InputGroup>
         </Field>
         <Field className="max-w-sm">
-          <FieldLabel htmlFor="inline-start-input">Senha</FieldLabel>
+          <FieldLabel htmlFor="password">Senha</FieldLabel>
           <InputGroup>
-            <InputGroupInput ref={fieldRef} type="password" id="inline-start-input" placeholder="Digite sua senha" autoComplete="new-password" />
+            <InputGroupInput ref={fieldRef} type="password" id="password" placeholder="Digite sua senha" autoComplete="new-password" />
             <InputGroupAddon align="inline-start">
-              <MailIcon className="text-muted-foreground" />
+              <LockIcon className="text-muted-foreground" />
             </InputGroupAddon>
             <InputGroupAddon align="inline-end" onClick={toggleViewPassword} className="cursor-pointer">
-              <EyeClosed />
+              {eyeOpen ? <Eye /> : <EyeClosed />}
             </InputGroupAddon>
           </InputGroup>
           <FieldDescription>A senha deve ter no mínimo 8 caracteres</FieldDescription>
