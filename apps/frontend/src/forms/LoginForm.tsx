@@ -1,5 +1,5 @@
 import { useForm } from "@tanstack/react-form";
-import { Eye, EyeClosed, MailIcon, UserRoundPlus } from "lucide-react";
+import { Eye, EyeClosed, Lock, LockIcon, MailIcon, UserRoundPlus } from "lucide-react";
 import { useNavigate } from "react-router";
 
 import { Button } from "@/components/ui/button";
@@ -60,7 +60,7 @@ export function LoginForm({ onSubmit }: { onSubmit: (value: LoginSchema) => void
                     autoComplete="off"
                   />
                   <InputGroupAddon align="inline-start">
-                    <MailIcon className="text-muted-foreground" />
+                    <MailIcon className="text-muted-foreground size-4" />
                   </InputGroupAddon>
                 </InputGroup>
                 {isInvalid && <FieldError errors={field.state.meta.errors} />}
@@ -91,10 +91,10 @@ export function LoginForm({ onSubmit }: { onSubmit: (value: LoginSchema) => void
                     autoComplete="off"
                   />
                   <InputGroupAddon align="inline-start">
-                    <MailIcon className="text-muted-foreground" />
+                    <LockIcon className="text-muted-foreground size-4" />
                   </InputGroupAddon>
                   <InputGroupAddon align="inline-end" onClick={toggleViewPassword} className="cursor-pointer">
-                    {eyeOpen ? <Eye /> : <EyeClosed />}
+                    {eyeOpen ? <Eye className="size-4" /> : <EyeClosed className="size-4" />}
                   </InputGroupAddon>
                 </InputGroup>
                 {isInvalid && <FieldError errors={field.state.meta.errors} />}
@@ -106,7 +106,7 @@ export function LoginForm({ onSubmit }: { onSubmit: (value: LoginSchema) => void
         <div className="flex justify-between">
           <Field orientation="horizontal">
             <Checkbox id="remember-me" name="remember-me" />
-            <FieldLabel htmlFor="remember-me" className="text-sm text-foreground cursor-pointer">Lembrar-me</FieldLabel>
+            <FieldLabel htmlFor="remember-me" className="text-sm text-foreground font-normal cursor-pointer">Lembrar-me</FieldLabel>
           </Field>
           <a href="/forgot-password" className="text-sm font-medium text-financy-brand-base dark:text-financy-feedback-success text-nowrap hover:underline">Recuperar senha</a>
         </div>
@@ -123,7 +123,7 @@ export function LoginForm({ onSubmit }: { onSubmit: (value: LoginSchema) => void
 
       <p className="text-muted-foreground text-sm mb-4">Ainda não tem uma conta?</p>
       <Button variant="outline" className="w-full" onClick={() => navigate("/register")}>
-        <UserRoundPlus />
+        <UserRoundPlus data-icon="inline-start" />
         Criar conta
       </Button>
     </form>

@@ -1,19 +1,41 @@
-import { Eye, EyeClosed, LockIcon, LogIn, MailIcon } from "lucide-react";
+import { useForm } from "@tanstack/react-form";
+import { Eye, EyeClosed, LockIcon, LogIn, MailIcon, User } from "lucide-react";
 import { useNavigate } from "react-router";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { Separator } from "@/components/ui/separator";
+import { registerSchema, type RegisterSchema } from "@/forms/schemas/register-schema";
 import { useViewPassword } from "@/hooks/use-view-password";
 
-export function RegisterForm({ onSubmit }: { onSubmit: () => void }) {
+import type { SubmitEvent } from "react";
+
+export function RegisterForm({ onSubmit }: { onSubmit: (value: RegisterSchema) => void }) {
   const navigate = useNavigate();
   const { fieldRef, toggleViewPassword, eyeOpen } = useViewPassword();
 
+  const form = useForm({
+    defaultValues: {
+      fullName: "",
+      email: "",
+      password: "",
+    },
+    validators: {
+      onChange: registerSchema,
+    },
+    onSubmit: async ({ value }) => {
+      onSubmit(value);
+    },
+  });
+
+  const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    form.handleSubmit();
+  };
+
   return (
-    <form onSubmit={onSubmit} className="flex flex-col items-center">
+    <form onSubmit={handleSubmit} className="flex flex-col items-center">
       <h1 className="text-xl font-bold text-foreground">Criar conta</h1>
       <p className="text-muted-foreground">Comece a controlar suas finanças ainda hoje</p>
 
@@ -23,7 +45,7 @@ export function RegisterForm({ onSubmit }: { onSubmit: () => void }) {
           <InputGroup>
             <InputGroupInput type="text" id="full-name" placeholder="Seu nome completo" autoComplete="name" />
             <InputGroupAddon align="inline-start">
-              <MailIcon className="text-muted-foreground" />
+              <User className="text-muted-foreground size-4" />
             </InputGroupAddon>
           </InputGroup>
         </Field>
@@ -32,7 +54,7 @@ export function RegisterForm({ onSubmit }: { onSubmit: () => void }) {
           <InputGroup>
             <InputGroupInput type="email" id="email" placeholder="mail@exemplo.com" autoComplete="email" />
             <InputGroupAddon align="inline-start">
-              <MailIcon className="text-muted-foreground" />
+              <MailIcon className="text-muted-foreground size-4" />
             </InputGroupAddon>
           </InputGroup>
         </Field>
@@ -41,10 +63,10 @@ export function RegisterForm({ onSubmit }: { onSubmit: () => void }) {
           <InputGroup>
             <InputGroupInput ref={fieldRef} type="password" id="password" placeholder="Digite sua senha" autoComplete="new-password" />
             <InputGroupAddon align="inline-start">
-              <LockIcon className="text-muted-foreground" />
+              <LockIcon className="text-muted-foreground size-4" />
             </InputGroupAddon>
             <InputGroupAddon align="inline-end" onClick={toggleViewPassword} className="cursor-pointer">
-              {eyeOpen ? <Eye /> : <EyeClosed />}
+              {eyeOpen ? <Eye className="size-4" /> : <EyeClosed className="size-4" />}
             </InputGroupAddon>
           </InputGroup>
           <FieldDescription>A senha deve ter no mínimo 8 caracteres</FieldDescription>
