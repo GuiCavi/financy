@@ -60,7 +60,7 @@ export function LoginForm({ onSubmit }: { onSubmit: (value: LoginSchema) => void
                     autoComplete="off"
                   />
                   <InputGroupAddon align="inline-start">
-                    <MailIcon className="text-muted-foreground size-4" />
+                    <MailIcon className="text-muted-foreground size-4 data-[invalid=true]:text-destructive" data-invalid={isInvalid} />
                   </InputGroupAddon>
                 </InputGroup>
                 {isInvalid && <FieldError errors={field.state.meta.errors} />}
@@ -91,7 +91,7 @@ export function LoginForm({ onSubmit }: { onSubmit: (value: LoginSchema) => void
                     autoComplete="off"
                   />
                   <InputGroupAddon align="inline-start">
-                    <LockIcon className="text-muted-foreground size-4" />
+                    <LockIcon className="text-muted-foreground size-4 data-[invalid=true]:text-destructive" data-invalid={isInvalid} />
                   </InputGroupAddon>
                   <InputGroupAddon align="inline-end" onClick={toggleViewPassword} className="cursor-pointer">
                     {eyeOpen ? <Eye className="size-4" /> : <EyeClosed className="size-4" />}
