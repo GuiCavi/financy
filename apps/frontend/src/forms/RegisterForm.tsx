@@ -14,8 +14,8 @@ export function RegisterForm({ onSubmit }: { onSubmit: () => void }) {
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col items-center">
-      <h1 className="text-xl font-bold text-financy-grayscale-800">Criar conta</h1>
-      <p className="text-financy-grayscale-600">Comece a controlar suas finanças ainda hoje</p>
+      <h1 className="text-xl font-bold text-foreground">Criar conta</h1>
+      <p className="text-muted-foreground">Comece a controlar suas finanças ainda hoje</p>
 
       <FieldGroup className="mt-8">
         <Field className="max-w-sm">
@@ -49,26 +49,18 @@ export function RegisterForm({ onSubmit }: { onSubmit: () => void }) {
           </InputGroup>
           <FieldDescription>A senha deve ter no mínimo 8 caracteres</FieldDescription>
         </Field>
-
-        <div className="flex justify-between">
-          <Field orientation="horizontal">
-            <Checkbox id="remember-me" name="remember-me" />
-            <FieldLabel htmlFor="remember-me" className="text-sm text-financy-grayscale-700 cursor-pointer">Lembrar-me</FieldLabel>
-          </Field>
-          <a href="/forgot-password" className="text-sm font-medium text-financy-brand-base text-nowrap hover:underline">Recuperar senha</a>
-        </div>
       </FieldGroup>
 
       <Field className="mt-6">
-        <Button type="submit">Entrar</Button>
+        <Button type="submit">Cadastrar</Button>
       </Field>
 
       <div className="relative w-full flex flex-row items-center justify-center my-6">
         <Separator className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-        <span className="bg-financy-neutral-white text-financy-grayscale-500 text-sm z-10 px-3">ou</span>
+        <span className="bg-card text-muted-foreground text-sm z-10 px-3">ou</span>
       </div>
 
-      <p className="text-financy-grayscale-600 text-sm mb-4">Já tem uma conta?</p>
+      <p className="text-muted-foreground text-sm mb-4">Já tem uma conta?</p>
       <Button variant="outline" className="w-full" onClick={() => navigate("/login")}>
         <LogIn />
         Fazer login
