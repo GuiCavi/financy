@@ -1,3 +1,5 @@
+import { TanStackDevtools } from "@tanstack/react-devtools";
+import { formDevtoolsPlugin } from "@tanstack/react-form-devtools";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
@@ -11,5 +13,6 @@ createRoot(document.getElementById("root")!).render(
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <App />
     </ThemeProvider>
+    <TanStackDevtools plugins={[formDevtoolsPlugin()]} />
   </StrictMode>,
 );
