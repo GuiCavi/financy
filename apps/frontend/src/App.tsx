@@ -10,7 +10,7 @@ function AuthLayout() {
       <div className="flex justify-center items-center pt-12 pb-8">
         <img src={logoImg} alt="Financy Logo" />
       </div>
-      <div className="p-8 bg-financy-neutral-white border border-financy-grayscale-200 rounded-xl">
+      <div className="p-8 bg-financy-neutral-white dark:bg-card border border-border rounded-xl">
         <Outlet />
       </div>
     </div>
