@@ -3,6 +3,7 @@ import { Arg, Query, Resolver, UseMiddleware } from "type-graphql";
 import { IsAuth } from "../middlewares/auth.middleware";
 import { UserModel } from "../models/user.model";
 import { UserService } from "../services/user.service";
+import { WithCurrentUser } from "../graphql/decorators/user.decorator";
 
 @Resolver(() => UserModel)
 @UseMiddleware(IsAuth)
@@ -14,5 +15,10 @@ export class UserResolver {
     @Arg("id", () => String) id: string,
   ): Promise<UserModel> {
     return this.userService.findUser(id);
+  }
+
+  @Query(() => [UserModel])
+  async listUsers(): Promise<UserModel[]> {
+    return this.userService.listUsers();
   }
 }

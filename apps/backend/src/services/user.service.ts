@@ -15,4 +15,8 @@ export class UserService {
 
     return user;
   }
+
+  async listUsers(): Promise<UserModel[]> {
+    return prisma.user.findMany();
+  }
 }

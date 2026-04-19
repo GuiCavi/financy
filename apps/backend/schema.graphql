@@ -58,6 +58,7 @@ type Query {
   listCategories: [CategoryModel!]!
   listTransactions: [TransactionModel!]!
   listTransactionsByCategory(categoryId: String!): [TransactionModel!]!
+  listUsers: [UserModel!]!
 }
 
 input RegisterInput {
