@@ -3,6 +3,7 @@ import "reflect-metadata";
 
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@as-integrations/express5";
+import cors from "cors";
 import express from "express";
 import { buildSchema } from "type-graphql";
 
@@ -16,6 +17,10 @@ import { UserResolver } from "./resolvers/user.resolver";
 
 export async function bootstrap() {
   const app = express();
+  app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }));
 
   const schema = await buildSchema({
     resolvers: [AuthResolver, UserResolver, CategoryResolver, TransactionResolver],
