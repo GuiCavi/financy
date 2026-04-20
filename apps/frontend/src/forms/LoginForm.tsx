@@ -1,5 +1,5 @@
 import { useForm } from "@tanstack/react-form";
-import { Eye, EyeClosed, Lock, LockIcon, MailIcon, UserRoundPlus } from "lucide-react";
+import { Eye, EyeClosed, Loader2, LockIcon, MailIcon, UserRoundPlus } from "lucide-react";
 import { useNavigate } from "react-router";
 
 import { Button } from "@/components/ui/button";
@@ -112,9 +112,16 @@ export function LoginForm({ onSubmit }: { onSubmit: (value: LoginSchema) => void
         </div>
       </FieldGroup>
 
-      <Field className="mt-6">
-        <Button type="submit">Entrar</Button>
-      </Field>
+      <form.Subscribe
+        selector={(state) => [state.canSubmit, state.isSubmitting]}
+        children={([canSubmit, isSubmitting]) => (
+          <Field className="mt-6">
+            <Button type="submit" disabled={!canSubmit}>
+              {isSubmitting ? (<Loader2 className="size-4 animate-spin" />) : "Entrar"}
+            </Button>
+          </Field>
+        )}
+      />
 
       <div className="relative w-full flex flex-row items-center justify-center my-6">
         <Separator className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />

@@ -1,6 +1,9 @@
+import { CombinedGraphQLErrors } from "@apollo/client";
+import { toast } from "sonner";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+import { LOGIN_MUTATION } from "@/graphql/mutations/login";
 import { REGISTER_MUTATION } from "@/graphql/mutations/register";
 import { apolloClient } from "@/lib/apollo";
 
@@ -20,34 +23,69 @@ export const useAuthStore = create<AuthState>()(persist((set) => ({
   token: null,
   isAuthenticated: false,
   signup: async ({ name, email, password }: RegisterInput) => {
-    const { data } = await apolloClient.mutate<{ register?: RegisterOutput }, { data: RegisterInput }>({
-      mutation: REGISTER_MUTATION,
-      variables: {
-        data: {
-          name,
-          email,
-          password,
+    try {
+      const { data } = await apolloClient.mutate<{ register?: RegisterOutput }, { data: RegisterInput }>({
+        mutation: REGISTER_MUTATION,
+        variables: {
+          data: {
+            name,
+            email,
+            password,
+          },
         },
-      },
-    });
-    console.info("🚀 ~ data:", data);
-
-    if (data.register) {
-      set({
-        user: data.register.user,
-        token: data.register.token,
-        isAuthenticated: true,
       });
+
+      if (data.register) {
+        set({
+          user: data.register.user,
+          token: data.register.token,
+          isAuthenticated: true,
+        });
+      } else {
+        toast.error("Não foi possível registrar sua conta");
+      }
+    } catch (error) {
+      if (error instanceof CombinedGraphQLErrors) {
+        toast.error(error.errors[0].message);
+      } else {
+        toast.error("Não foi possível registrar sua conta");
+      }
     }
   },
   login: async ({ email, password }: LoginInput) => {
+    try {
+      const { data } = await apolloClient.mutate<{ login?: RegisterOutput }, { data: LoginInput }>({
+        mutation: LOGIN_MUTATION,
+        variables: {
+          data: {
+            email,
+            password,
+          },
+        },
+      });
 
+      if (data.login) {
+        set({
+          user: data.login.user,
+          token: data.login.token,
+          isAuthenticated: true,
+        });
+      } else {
+        toast.error("Não foi possível fazer login");
+      }
+    } catch (error) {
+      if (error instanceof CombinedGraphQLErrors) {
+        toast.error(error.errors[0].message);
+      } else {
+        toast.error("Não foi possível fazer login");
+      }
+    }
   },
   logout: () => {
 
   },
 }), {
-  name: "auth",
+  name: "@financy/auth",
 }));
 
 useAuthStore.subscribe((state) => {

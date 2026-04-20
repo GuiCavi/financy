@@ -1,14 +1,10 @@
 import { LoginForm } from "@/forms/LoginForm";
-import type { LoginSchema } from "@/forms/schemas/login-schema";
+import { useAuthStore } from "@/stores/auth";
 
 export function Login() {
+  const { login } = useAuthStore();
+
   return (
-    <div>
-      <LoginForm
-        onSubmit={(value: LoginSchema) => {
-          console.info("🚀 ~ Login ~ value:", value);
-        }}
-      />
-    </div>
+    <LoginForm onSubmit={(value) => login({ email: value.email, password: value.password })} />
   );
 }
