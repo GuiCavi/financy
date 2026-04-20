@@ -7,7 +7,7 @@ import { LOGIN_MUTATION } from "@/graphql/mutations/login";
 import { REGISTER_MUTATION } from "@/graphql/mutations/register";
 import { apolloClient } from "@/lib/apollo";
 
-import type { LoginInput, RegisterInput, RegisterOutput, User } from "../types/auth";
+import type { LoginInput, LoginOutput, RegisterInput, RegisterOutput, User } from "../types/auth";
 
 interface AuthState {
   user: User | null;
@@ -54,7 +54,7 @@ export const useAuthStore = create<AuthState>()(persist((set) => ({
   },
   login: async ({ email, password }: LoginInput) => {
     try {
-      const { data } = await apolloClient.mutate<{ login?: RegisterOutput }, { data: LoginInput }>({
+      const { data } = await apolloClient.mutate<{ login?: LoginOutput }, { data: LoginInput }>({
         mutation: LOGIN_MUTATION,
         variables: {
           data: {
