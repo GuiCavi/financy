@@ -13,7 +13,7 @@ export class AuthService {
     });
 
     if (existingUser) {
-      throw new Error("User already exists");
+      throw new Error("Usuário já cadastrado");
     }
 
     const hashedPassword = await hashPassword(data.password);
