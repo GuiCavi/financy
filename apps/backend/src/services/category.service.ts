@@ -7,6 +7,7 @@ export class CategoryService {
     const existingCategory = await prisma.category.findFirst({
       where: {
         name: data.name,
+        userId,
       },
     });
 
