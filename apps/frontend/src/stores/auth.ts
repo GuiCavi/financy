@@ -22,15 +22,15 @@ export const useAuthStore = create<AuthState>()(persist((set) => ({
   user: null,
   token: null,
   isAuthenticated: false,
-  signup: async ({ name, email, password }: RegisterInput) => {
+  signup: async (input: RegisterInput) => {
     try {
-      const { data } = await apolloClient.mutate<{ register?: RegisterOutput }, { data: RegisterInput }>({
+      const { data } = await apolloClient.mutate<RegisterOutput, RegisterInput>({
         mutation: REGISTER_MUTATION,
         variables: {
           data: {
-            name,
-            email,
-            password,
+            name: input.data.name,
+            email: input.data.email,
+            password: input.data.password,
           },
         },
       });
@@ -52,14 +52,14 @@ export const useAuthStore = create<AuthState>()(persist((set) => ({
       }
     }
   },
-  login: async ({ email, password }: LoginInput) => {
+  login: async (input: LoginInput) => {
     try {
-      const { data } = await apolloClient.mutate<{ login?: LoginOutput }, { data: LoginInput }>({
+      const { data } = await apolloClient.mutate<LoginOutput, LoginInput>({
         mutation: LOGIN_MUTATION,
         variables: {
           data: {
-            email,
-            password,
+            email: input.data.email,
+            password: input.data.password,
           },
         },
       });
