@@ -7,24 +7,32 @@ export type User = {
 };
 
 export type RegisterInput = {
-  name: string;
-  email: string;
-  password: string;
+  data: {
+    name: string;
+    email: string;
+    password: string;
+  };
 };
 
 export type RegisterOutput = {
-  token: string;
-  refreshToken: string;
-  user: User;
+  register?: {
+    token: string;
+    refreshToken: string;
+    user: User;
+  };
 };
 
 export type LoginInput = {
-  email: string;
-  password: string;
+  data: {
+    email: string;
+    password: string;
+  };
 };
 
 export type LoginOutput = {
-  token: string;
-  refreshToken: string;
-  user: User;
+  login?: {
+    token: string;
+    refreshToken: string;
+    user: User;
+  };
 };
