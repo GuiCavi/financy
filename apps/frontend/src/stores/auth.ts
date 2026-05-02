@@ -35,6 +35,10 @@ export const useAuthStore = create<AuthState>()(persist((set) => ({
         },
       });
 
+      if (!data) {
+        throw new Error("Não foi possível registrar sua conta");
+      }
+
       if (data.register) {
         set({
           user: data.register.user,
@@ -45,7 +49,7 @@ export const useAuthStore = create<AuthState>()(persist((set) => ({
         toast.error("Não foi possível registrar sua conta");
       }
     } catch (error) {
-      if (error instanceof CombinedGraphQLErrors) {
+      if (CombinedGraphQLErrors.is(error)) {
         toast.error(error.errors[0].message);
       } else {
         toast.error("Não foi possível registrar sua conta");
@@ -64,6 +68,10 @@ export const useAuthStore = create<AuthState>()(persist((set) => ({
         },
       });
 
+      if (!data) {
+        throw new Error("Não foi possível fazer login");
+      }
+
       if (data.login) {
         set({
           user: data.login.user,
@@ -74,7 +82,7 @@ export const useAuthStore = create<AuthState>()(persist((set) => ({
         toast.error("Não foi possível fazer login");
       }
     } catch (error) {
-      if (error instanceof CombinedGraphQLErrors) {
+      if (CombinedGraphQLErrors.is(error)) {
         toast.error(error.errors[0].message);
       } else {
         toast.error("Não foi possível fazer login");
@@ -82,7 +90,8 @@ export const useAuthStore = create<AuthState>()(persist((set) => ({
     }
   },
   logout: () => {
-
+    set({ user: null, token: null, isAuthenticated: false });
+    apolloClient.resetStore();
   },
 }), {
   name: "@financy/auth",
@@ -91,3 +100,11 @@ export const useAuthStore = create<AuthState>()(persist((set) => ({
 useAuthStore.subscribe((state) => {
   console.info("🚀 ~ state:", state);
 });
+
+export const useUser = () => {
+  const user = useAuthStore((state) => state.user);
+  if (!user) {
+    throw new Error("useUser must be used within an authenticated route");
+  }
+  return user;
+};
