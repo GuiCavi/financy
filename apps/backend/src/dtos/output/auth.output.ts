@@ -25,3 +25,9 @@ export class LoginOutput {
   @Field(() => UserModel)
   user!: UserModel;
 }
+
+@ObjectType()
+export class MeOutput {
+  @Field(() => UserModel)
+  user!: UserModel;
+}

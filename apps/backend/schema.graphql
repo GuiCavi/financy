@@ -42,6 +42,10 @@ type LoginOutput {
   user: UserModel!
 }
 
+type MeOutput {
+  user: UserModel!
+}
+
 type Mutation {
   createCategory(data: CreateCategoryInput!): CategoryModel!
   createTransaction(data: CreateTransactionInput!): TransactionModel!
@@ -59,6 +63,7 @@ type Query {
   listTransactions: [TransactionModel!]!
   listTransactionsByCategory(categoryId: String!): [TransactionModel!]!
   listUsers: [UserModel!]!
+  me: MeOutput!
 }
 
 input RegisterInput {
