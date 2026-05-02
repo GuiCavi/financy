@@ -1,51 +1,45 @@
-import { CombinedGraphQLErrors } from "@apollo/client";
-import { useForm } from "@tanstack/react-form";
 import { CircleArrowDown, CircleArrowUp, Wallet } from "lucide-react";
 import { type ComponentProps, type PropsWithChildren, useEffect } from "react";
-import { toast } from "sonner";
 
 import { Item, ItemContent, ItemMedia, ItemTitle } from "@/components/ui/item";
-import { CREATE_CATEGORY_MUTATION } from "@/graphql/mutations/cateogry";
-import { apolloClient } from "@/lib/apollo";
 import { cn } from "@/lib/utils";
 import { useCategoryStore } from "@/stores/category";
-import type { CreateCategoryInput, CreateCategoryOutput } from "@/types/category";
 
 export function Dashboard() {
-  const { categories, listCategories } = useCategoryStore();
+  const { listCategories } = useCategoryStore();
 
   useEffect(() => {
-    listCategories().then(() => console.log("Categories listed"));
+    listCategories();
   }, [listCategories]);
 
-  const form = useForm({
-    defaultValues: {
-      name: "",
-    },
-    onSubmit: async (values) => {
-      try {
-        const { name } = values.value;
-        const { data } = await apolloClient.mutate<CreateCategoryOutput, CreateCategoryInput>({
-          mutation: CREATE_CATEGORY_MUTATION,
-          variables: {
-            data: {
-              name,
-            },
-          },
-        });
+  // const form = useForm({
+  //   defaultValues: {
+  //     name: "",
+  //   },
+  //   onSubmit: async (values) => {
+  //     try {
+  //       const { name } = values.value;
+  //       const { data } = await apolloClient.mutate<CreateCategoryOutput, CreateCategoryInput>({
+  //         mutation: CREATE_CATEGORY_MUTATION,
+  //         variables: {
+  //           data: {
+  //             name,
+  //           },
+  //         },
+  //       });
 
-        if (data.createCategory) {
-          toast.success("Categoria criada com sucesso");
-        }
-      } catch (error) {
-        if (error instanceof CombinedGraphQLErrors) {
-          toast.error(error.errors[0].message);
-        } else {
-          toast.error("Não foi possível criar a categoria");
-        }
-      }
-    },
-  });
+  //       if (data.createCategory) {
+  //         toast.success("Categoria criada com sucesso");
+  //       }
+  //     } catch (error) {
+  //       if (error instanceof CombinedGraphQLErrors) {
+  //         toast.error(error.errors[0].message);
+  //       } else {
+  //         toast.error("Não foi possível criar a categoria");
+  //       }
+  //     }
+  //   },
+  // });
 
   return (
     <div className="p-12 grid grid-cols-1 gap-6">

@@ -21,6 +21,10 @@ export const useCategoryStore = create<CategoryState>()((set) => ({
         },
       );
 
+      if (!data) {
+        throw new Error("Não foi possível listar as categorias");
+      }
+
       console.info("🚀 ~ data.categories:", data);
       if (data.listCategories) {
         set({ categories: data.listCategories });
@@ -29,10 +33,10 @@ export const useCategoryStore = create<CategoryState>()((set) => ({
       }
     } catch (error) {
       console.log(error);
-      if (error instanceof CombinedGraphQLErrors) {
+      if (CombinedGraphQLErrors.is(error)) {
         toast.error(error.errors[0].message);
       } else {
-        toast.error("Não foi possível registrar sua conta");
+        toast.error("Não foi possível listar as categorias");
       }
     }
   },
