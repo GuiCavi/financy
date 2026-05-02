@@ -5,6 +5,6 @@ export function Register() {
   const { signup } = useAuthStore();
 
   return (
-    <RegisterForm onSubmit={(value) => signup({ name: value.fullName, email: value.email, password: value.password })} />
+    <RegisterForm onSubmit={(value) => signup({ data: { name: value.fullName, email: value.email, password: value.password } })} />
   );
 }

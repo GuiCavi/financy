@@ -80,7 +80,7 @@ export function LoginForm({ onSubmit }: { onSubmit: (value: LoginSchema) => void
                 <InputGroup>
                   <InputGroupInput
                     ref={fieldRef}
-                    type="password"
+                    type={eyeOpen ? "text" : "password"}
                     id={field.name}
                     name={field.name}
                     value={field.state.value}

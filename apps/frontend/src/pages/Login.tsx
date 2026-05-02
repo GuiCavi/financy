@@ -5,6 +5,6 @@ export function Login() {
   const { login } = useAuthStore();
 
   return (
-    <LoginForm onSubmit={(value) => login({ email: value.email, password: value.password })} />
+    <LoginForm onSubmit={(value) => login({ data: { email: value.email, password: value.password } })} />
   );
 }
