@@ -2,15 +2,15 @@ import { NavLink, Outlet } from "react-router";
 
 import logoImg from "@/assets/Logo.svg";
 import { ToggleTheme } from "@/components/toggle-theme";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu";
 import { getInitials } from "@/lib/utils";
-import { useAuthStore } from "@/stores/auth";
+import { useUser } from "@/stores/auth";
 
 import type { NavigationMenuLinkProps } from "@base-ui/react/navigation-menu";
 
 export function DashboardLayout() {
-  const { user } = useAuthStore();
+  const user = useUser();
 
   return (
     <main>
@@ -35,7 +35,7 @@ export function DashboardLayout() {
           <ToggleTheme />
           <Avatar>
             {/* <AvatarImage src={user?.avatarUrl } /> */}
-            <AvatarFallback>{getInitials(user?.name)}</AvatarFallback>
+            <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
           </Avatar>
         </div>
       </header>
@@ -47,7 +47,7 @@ export function DashboardLayout() {
 function Link(props: NavigationMenuLinkProps) {
   return (
     <NavigationMenuLink
-      render={<NavLink to={props.href} />}
+      render={<NavLink to={props.href || "#"} />}
       {...props}
     />
   );
