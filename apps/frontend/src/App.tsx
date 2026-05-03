@@ -1,12 +1,14 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 
-import { Categories } from "@/pages/Categories";
-import { Dashboard } from "@/pages/Dashboard";
+import {
+  Categories,
+  Dashboard,
+  Login,
+  Register,
+  Transactions,
+} from "@/pages";
 import { AuthLayout } from "@/pages/layouts/AuthLayout";
 import { DashboardLayout } from "@/pages/layouts/DashboardLayout";
-import { Login } from "@/pages/Login";
-import { Register } from "@/pages/Register";
-import { Transactions } from "@/pages/Transactions";
 import { useAuthStore } from "@/stores/auth";
 
 import type { PropsWithChildren } from "react";
@@ -25,9 +27,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<AuthLayout />}>
-          <Route path="login" element={<PublicRoute><Login /></PublicRoute>} />
-          <Route path="register" element={<PublicRoute><Register /></PublicRoute>} />
+        <Route element={<PublicRoute><AuthLayout /></PublicRoute>}>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
         </Route>
         <Route path="/" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
           <Route index element={<Dashboard />} />
