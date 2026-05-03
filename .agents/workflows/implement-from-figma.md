@@ -26,6 +26,7 @@ From the returned Figma data, map the visual hierarchy to understand:
 
 For any icons, illustrations, or images found in the Figma node:
 
+- For icons, prioritize use the icons package installed. If no icon pack found, or no icon present in the icon pack, then use the svg from figma.
 - Use `mcp_figma_download_figma_images` to export them.
 - Save SVG icons to `apps/frontend/src/assets/icons/`.
 - Save illustrations/images to `apps/frontend/src/assets/images/`.
