@@ -1,8 +1,10 @@
-import { CircleArrowDown, CircleArrowUp, Wallet } from "lucide-react";
+import { ChevronRight, CircleArrowDown, CircleArrowUp, Wallet } from "lucide-react";
 import { useEffect } from "react";
 
-import { DashboardCard } from "@/components/DashboardCard";
+import { CategoryItem } from "@/components/CategoryItem";
+import { DashboardCard, DashboardCardContent, DashboardCardHeader } from "@/components/DashboardCard";
 import { HighlightCard } from "@/components/HighlightCard";
+import { Button } from "@/components/ui/button";
 import { useCategoryStore } from "@/stores/category";
 
 export function Dashboard() {
@@ -52,13 +54,46 @@ export function Dashboard() {
       <div className="grid grid-cols-3 gap-6">
         <div className="col-span-2">
           <DashboardCard>
-            <p>teste</p>
+            <DashboardCardContent>
+              <p>teste</p>
+            </DashboardCardContent>
           </DashboardCard>
         </div>
 
         <div>
           <DashboardCard>
-            <p>teste</p>
+            <DashboardCardHeader
+              action={
+                <Button
+                  variant="ghost"
+                  size="xs"
+                  type="button"
+                  className="flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80"
+                >
+                  Gerenciar
+                  <ChevronRight className="h-5 w-5" />
+                </Button>
+              }
+            >
+              Categorias
+            </DashboardCardHeader>
+            <DashboardCardContent className="gap-5">
+              {[
+                { label: "Alimentação", itemsCount: 12, value: "R$ 542,30", color: "blue" as const },
+                { label: "Transporte", itemsCount: 8, value: "R$ 385,50", color: "purple" as const },
+                { label: "Mercado", itemsCount: 3, value: "R$ 298,75", color: "orange" as const },
+                { label: "Entretenimento", itemsCount: 2, value: "R$ 186,20", color: "pink" as const },
+                { label: "Utilidades", itemsCount: 7, value: "R$ 245,80", color: "yellow" as const },
+              ].map((cat, i) => (
+                <CategoryItem
+                  key={i}
+                  label={cat.label}
+                  itemsCount={cat.itemsCount}
+                  value={cat.value}
+                  color={cat.color}
+                />
+              ))}
+            </DashboardCardContent>
           </DashboardCard>
         </div>
       </div>
