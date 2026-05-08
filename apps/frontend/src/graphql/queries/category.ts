@@ -22,3 +22,19 @@ export const LIST_CATEGORIES_QUERY = gql`
     }
   }
 `;
+
+export const DASHBOARD_LIST_CATEGORIES_QUERY = gql`
+  query DashBoardListCategories {
+    listCategories {
+      id
+      name
+      iconName
+      color
+      totalAmount
+      transactionsCount
+      user {
+        name
+      }
+    }
+  }
+`;
