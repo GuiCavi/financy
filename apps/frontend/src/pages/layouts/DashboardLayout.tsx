@@ -1,16 +1,19 @@
+import { LogOut } from "lucide-react";
 import { NavLink, Outlet } from "react-router";
 
 import logoImg from "@/assets/Logo.svg";
 import { ToggleTheme } from "@/components/toggle-theme";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu";
-import { getInitials } from "@/lib/utils";
-import { useUser } from "@/stores/auth";
+import { useAuthStore, useUser } from "@/stores/auth";
+import { getInitials } from "@/utils/text";
 
 import type { NavigationMenuLinkProps } from "@base-ui/react/navigation-menu";
 
 export function DashboardLayout() {
   const user = useUser();
+  const { logout } = useAuthStore();
 
   return (
     <main>
@@ -35,8 +38,11 @@ export function DashboardLayout() {
           <ToggleTheme />
           <Avatar>
             {/* <AvatarImage src={user?.avatarUrl } /> */}
-            <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
+            <AvatarFallback className="bg-financy-grayscale-300 text-financy-grayscale-800">{getInitials(user.name)}</AvatarFallback>
           </Avatar>
+          <Button variant="ghost" size="icon" onClick={() => logout()}>
+            <LogOut />
+          </Button>
         </div>
       </header>
       <Outlet />

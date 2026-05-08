@@ -1,7 +1,7 @@
 import { LoginForm } from "@/forms/LoginForm";
 import { useAuthStore } from "@/stores/auth";
 
-export function Login() {
+export default function Login() {
   const { login } = useAuthStore();
 
   return (

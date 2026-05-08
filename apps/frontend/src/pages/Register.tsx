@@ -1,7 +1,7 @@
 import { RegisterForm } from "@/forms/RegisterForm";
 import { useAuthStore } from "@/stores/auth";
 
-export function Register() {
+export default function Register() {
   const { signup } = useAuthStore();
 
   return (
