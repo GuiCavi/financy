@@ -2,7 +2,7 @@ import { CombinedGraphQLErrors } from "@apollo/client";
 import { toast } from "sonner";
 import { create } from "zustand";
 
-import { LIST_CATEGORIES_QUERY } from "@/graphql/queries/category";
+import { LIST_CATEGORIES_QUERY } from "@/graphql/queries";
 import { apolloClient } from "@/lib/apollo";
 import type { Category, ListCategoriesOutput } from "@/types/category";
 
