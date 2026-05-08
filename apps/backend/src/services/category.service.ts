@@ -19,7 +19,7 @@ export class CategoryService {
       data: {
         userId,
         name: data.name,
-        icon: data.iconName,
+        icon: data.icon,
         color: data.color,
       },
     });
@@ -43,7 +43,7 @@ export class CategoryService {
       where: { id },
       data: {
         name: data.name,
-        icon: data.iconName,
+        icon: data.icon,
         color: data.color,
       },
     });

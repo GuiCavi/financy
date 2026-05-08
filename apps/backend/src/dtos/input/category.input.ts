@@ -6,7 +6,7 @@ export class CreateCategoryInput {
   name!: string;
 
   @Field(() => String, { nullable: true })
-  iconName?: string;
+  icon?: string;
 
   @Field(() => String, { nullable: true })
   color?: string;
@@ -18,7 +18,7 @@ export class UpdateCategoryInput {
   name?: string;
 
   @Field(() => String, { nullable: true })
-  iconName?: string;
+  icon?: string;
 
   @Field(() => String, { nullable: true })
   color?: string;

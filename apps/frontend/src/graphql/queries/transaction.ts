@@ -10,7 +10,7 @@ export const DASHBOARD_LIST_TRANSACTIONS_QUERY = gql`
       type
       category {
         name
-        iconName
+        icon
         color
       }
     }

@@ -6,7 +6,7 @@
 type CategoryModel {
   color: String
   createdAt: DateTimeISO!
-  iconName: String
+  icon: String
   id: String!
   name: String!
   totalAmount: Float!
@@ -19,7 +19,7 @@ type CategoryModel {
 
 input CreateCategoryInput {
   color: String
-  iconName: String
+  icon: String
   name: String!
 }
 
@@ -99,7 +99,7 @@ type TransactionModel {
 
 input UpdateCategoryInput {
   color: String
-  iconName: String
+  icon: String
   name: String
 }
 

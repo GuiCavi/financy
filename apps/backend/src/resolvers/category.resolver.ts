@@ -80,9 +80,4 @@ export class CategoryResolver {
   ): Promise<number> {
     return this.transationService.countTransactionsByCategory(parent.id, user.id);
   }
-
-  @FieldResolver(() => String, { nullable: true })
-  iconName(@Root() category: any): string | null {
-    return category.iconName || category.icon;
-  }
 }

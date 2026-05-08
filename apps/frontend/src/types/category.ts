@@ -4,7 +4,7 @@ import type { CategoryColor } from "@/utils/icons";
 export type Category = {
   id: string;
   name: string;
-  iconName: string;
+  icon: string;
   color: CategoryColor;
   userId: string;
   user: User;
@@ -17,7 +17,7 @@ export type Category = {
 export type CreateCategoryInput = {
   data: {
     name: string;
-    iconName: string;
+    icon: string;
     color: CategoryColor;
   };
 };
@@ -34,7 +34,7 @@ export type DashboardListCategoriesOutput = {
   listCategories?: {
     id: string;
     name: string;
-    iconName: string;
+    icon: string;
     color: CategoryColor;
     totalAmount: number;
     transactionsCount: number;

@@ -27,7 +27,7 @@ export class CategoryModel {
   color?: string | null;
 
   @Field(() => String, { nullable: true })
-  iconName?: string | null;
+  icon?: string | null;
 
   @Field(() => GraphQLISODateTime)
   createdAt!: Date;

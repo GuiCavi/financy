@@ -16,7 +16,7 @@ export type DashboardListTransactionsOutput = {
     type: TransactionType;
     category: {
       name: string;
-      iconName: string;
+      icon: string;
       color: CategoryColor;
     };
   }[];

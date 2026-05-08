@@ -28,7 +28,7 @@ export const DASHBOARD_LIST_CATEGORIES_QUERY = gql`
     listCategories {
       id
       name
-      iconName
+      icon
       color
       totalAmount
       transactionsCount

@@ -13,7 +13,7 @@ export interface TransactionItemProps extends React.HTMLAttributes<HTMLDivElemen
   type: keyof typeof TransactionTypeIconMap;
   category: {
     name: string;
-    iconName: string;
+    icon: string;
     color: CategoryColor;
   };
 }
@@ -25,7 +25,7 @@ export function TransactionItem({ className, ...props }: TransactionItemProps) {
   return (
     <div className={cn("flex items-center border-b border-border p-5 px-6", className)} {...props}>
       <div className="flex flex-1 items-center gap-4">
-        <CategoryIconContainer iconName={props.category.iconName} color={props.category.color} />
+        <CategoryIconContainer icon={props.category.icon} color={props.category.color} />
 
         <div className="flex flex-col gap-0.5">
           <span className="text-base font-medium text-foreground">{props.description}</span>
@@ -69,11 +69,11 @@ const categoryIconVariants = cva("flex size-10 shrink-0 items-center justify-cen
 
 export interface CategoryIconContainerProps extends React.ComponentProps<"div"> {
   color?: VariantProps<typeof categoryIconVariants>["color"];
-  iconName: string;
+  icon: string;
 }
 
-function CategoryIconContainer({ iconName, color }: CategoryIconContainerProps) {
-  const Icon = CategoryIconMap[iconName];
+function CategoryIconContainer({ icon, color }: CategoryIconContainerProps) {
+  const Icon = CategoryIconMap[icon];
 
   return (
     <div className={categoryIconVariants({ color })}>
