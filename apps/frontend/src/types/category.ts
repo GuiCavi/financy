@@ -1,10 +1,11 @@
 import type { User } from "@/types/auth";
 import type { CategoryColor } from "@/utils/colors";
+import type { CategoryIconMap } from "@/utils/icons";
 
 export type Category = {
   id: string;
   name: string;
-  icon: string;
+  icon: keyof typeof CategoryIconMap;
   color: CategoryColor;
   userId: string;
   user: User;
@@ -17,7 +18,7 @@ export type Category = {
 export type CreateCategoryInput = {
   data: {
     name: string;
-    icon: string;
+    icon: keyof typeof CategoryIconMap;
     color: CategoryColor;
   };
 };
@@ -34,7 +35,7 @@ export type DashboardListCategoriesOutput = {
   listCategories?: {
     id: string;
     name: string;
-    icon: string;
+    icon: keyof typeof CategoryIconMap;
     color: CategoryColor;
     totalAmount: number;
     transactionsCount: number;

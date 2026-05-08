@@ -11,6 +11,9 @@ interface CategoryState {
   listCategories: () => Promise<void>;
 }
 
+/**
+ * @deprecated - in favor of using useSuspenseQuery with CategoriesContainer
+ */
 export const useCategoryStore = create<CategoryState>()((set) => ({
   categories: [],
   listCategories: async () => {
