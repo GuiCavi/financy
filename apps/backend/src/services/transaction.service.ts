@@ -57,6 +57,15 @@ export class TransactionService {
     });
   }
 
+  async countTransactionsByCategory(categoryId: string, userId: string): Promise<number> {
+    return prisma.transaction.count({
+      where: {
+        categoryId,
+        userId,
+      },
+    });
+  }
+
   async deleteTransaction(id: string, userId: string) {
     const existingTransaction = await prisma.transaction.findUnique({
       where: {
