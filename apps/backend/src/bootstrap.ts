@@ -18,7 +18,7 @@ import { UserResolver } from "./resolvers/user.resolver";
 export async function bootstrap() {
   const app = express();
   app.use(cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "http://localhost:4173"],
     credentials: true,
   }));
 

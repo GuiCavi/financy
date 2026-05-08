@@ -1,17 +1,15 @@
+import { lazy, type PropsWithChildren } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 
-import {
-  Categories,
-  Dashboard,
-  Login,
-  Register,
-  Transactions,
-} from "@/pages";
 import { AuthLayout } from "@/pages/layouts/AuthLayout";
 import { DashboardLayout } from "@/pages/layouts/DashboardLayout";
 import { useAuthStore } from "@/stores/auth";
 
-import type { PropsWithChildren } from "react";
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Categories = lazy(() => import("./pages/Categories"));
+const Transactions = lazy(() => import("./pages/Transactions"));
+const Login = lazy(() => import("./pages/Login"));
+const Register = lazy(() => import("./pages/Register"));
 
 function ProtectedRoute({ children }: PropsWithChildren) {
   const { isAuthenticated } = useAuthStore();
