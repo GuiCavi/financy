@@ -1,4 +1,3 @@
-import { useSuspenseQuery } from "@apollo/client/react";
 import { ChevronRight, CircleArrowDown, CircleArrowUp, Plus, Wallet } from "lucide-react";
 import { Suspense } from "react";
 
@@ -7,9 +6,8 @@ import { DashboardCard, DashboardCardAction, DashboardCardContent, DashboardCard
 import { HighlightCard } from "@/components/HighlightCard";
 import { TransactionItem } from "@/components/TransactionItem";
 import { Button } from "@/components/ui/button";
-import { DASHBOARD_LIST_CATEGORIES_QUERY, DASHBOARD_LIST_TRANSACTIONS_QUERY } from "@/graphql/queries";
-import type { DashboardListCategoriesOutput } from "@/types/category";
-import type { DashboardListTransactionsOutput } from "@/types/transaction";
+import { DashboardCategoriesContainer } from "@/containers/DashboardCategoriesContainer";
+import { DashboardTransactionsContainer } from "@/containers/DashboardTransactionsContainer";
 import { formatDate, formatMoney } from "@/utils/text";
 
 export default function Dashboard() {
@@ -35,7 +33,7 @@ export default function Dashboard() {
 
           <DashboardCardContent className="p-0">
             <Suspense fallback={<span>Carregando transações...</span>}>
-              <TransactionsContainer>
+              <DashboardTransactionsContainer>
                 {(transactions) => (
                   transactions.map((transaction) => (
                     <TransactionItem
@@ -48,7 +46,7 @@ export default function Dashboard() {
                     />
                   ))
                 )}
-              </TransactionsContainer>
+              </DashboardTransactionsContainer>
             </Suspense>
           </DashboardCardContent>
           <div className="flex items-center justify-center border-t border-border p-5 px-6">
@@ -78,7 +76,7 @@ export default function Dashboard() {
 
           <DashboardCardContent className="gap-5">
             <Suspense fallback={<span>Carregando categorias...</span>}>
-              <CategoriesContainer>
+              <DashboardCategoriesContainer>
                 {(categories) => (
                   categories.map((category) => (
                     <CategoryItem
@@ -90,39 +88,11 @@ export default function Dashboard() {
                     />
                   ))
                 )}
-              </CategoriesContainer>
+              </DashboardCategoriesContainer>
             </Suspense>
           </DashboardCardContent>
         </DashboardCard>
       </div>
     </div >
-  );
-}
-
-function CategoriesContainer({ children }: { children: (data: NonNullable<DashboardListCategoriesOutput["listCategories"]>) => void }) {
-  const { data } = useSuspenseQuery<DashboardListCategoriesOutput>(DASHBOARD_LIST_CATEGORIES_QUERY);
-
-  if (!data.listCategories) {
-    return <span>Nenhuma categoria encontrada</span>;
-  }
-
-  return (
-    <>
-      {children(data.listCategories)}
-    </>
-  );
-}
-
-function TransactionsContainer({ children }: { children: (data: NonNullable<DashboardListTransactionsOutput["listTransactions"]>) => void }) {
-  const { data } = useSuspenseQuery<DashboardListTransactionsOutput>(DASHBOARD_LIST_TRANSACTIONS_QUERY);
-
-  if (!data.listTransactions) {
-    return <span>Nenhuma transação encontrada</span>;
-  }
-
-  return (
-    <>
-      {children(data.listTransactions)}
-    </>
   );
 }
