@@ -1,5 +1,5 @@
 import type { User } from "@/types/auth";
-import type { CategoryColor } from "@/utils/icons";
+import type { CategoryColor } from "@/utils/colors";
 
 export type Category = {
   id: string;

@@ -1,4 +1,3 @@
-
 export function getInitials(name: string) {
   const split = name.split(" ");
 
@@ -27,4 +26,8 @@ export function formatCount(
 ) {
   const rule = new Intl.PluralRules("pt-BR").select(count);
   return `${count} ${rule === "one" ? singular : plural}`;
+}
+
+export function formatDate(date: string) {
+  return new Date(date).toLocaleDateString("pt-BR");
 }

@@ -1,4 +1,5 @@
-import type { CategoryColor } from "@/utils/icons";
+import type { CategoryColor } from "@/utils/colors";
+import type { CategoryIconMap } from "@/utils/icons";
 
 export type TransactionType = "INCOME" | "EXPENSE";
 
@@ -16,7 +17,7 @@ export type DashboardListTransactionsOutput = {
     type: TransactionType;
     category: {
       name: string;
-      icon: string;
+      icon: keyof typeof CategoryIconMap;
       color: CategoryColor;
     };
   }[];

@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { DASHBOARD_LIST_CATEGORIES_QUERY, DASHBOARD_LIST_TRANSACTIONS_QUERY } from "@/graphql/queries";
 import type { DashboardListCategoriesOutput } from "@/types/category";
 import type { DashboardListTransactionsOutput } from "@/types/transaction";
-import { formatMoney } from "@/utils/text";
+import { formatDate, formatMoney } from "@/utils/text";
 
 export default function Dashboard() {
   return (
@@ -41,7 +41,7 @@ export default function Dashboard() {
                     <TransactionItem
                       key={transaction.id}
                       description={transaction.description}
-                      date={transaction.date}
+                      date={formatDate(transaction.date)}
                       amount={transaction.amount}
                       type={transaction.type}
                       category={transaction.category}
@@ -99,7 +99,7 @@ export default function Dashboard() {
   );
 }
 
-function CategoriesContainer({ children }: { children: (data: DashboardListCategoriesOutput["listCategories"]) => void }) {
+function CategoriesContainer({ children }: { children: (data: NonNullable<DashboardListCategoriesOutput["listCategories"]>) => void }) {
   const { data } = useSuspenseQuery<DashboardListCategoriesOutput>(DASHBOARD_LIST_CATEGORIES_QUERY);
 
   if (!data.listCategories) {
@@ -113,7 +113,7 @@ function CategoriesContainer({ children }: { children: (data: DashboardListCateg
   );
 }
 
-function TransactionsContainer({ children }: { children: (data: DashboardListTransactionsOutput["listTransactions"]) => void }) {
+function TransactionsContainer({ children }: { children: (data: NonNullable<DashboardListTransactionsOutput["listTransactions"]>) => void }) {
   const { data } = useSuspenseQuery<DashboardListTransactionsOutput>(DASHBOARD_LIST_TRANSACTIONS_QUERY);
 
   if (!data.listTransactions) {

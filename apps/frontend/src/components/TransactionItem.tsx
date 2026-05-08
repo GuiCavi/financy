@@ -3,7 +3,8 @@ import * as React from "react";
 
 import { CategoryTag } from "@/components/CategoryItem";
 import { cn } from "@/lib/utils";
-import type { CategoryColor } from "@/utils/icons";
+import { categoryColorVariants, TransactionTypeColorVariants } from "@/utils/colors";
+import type { CategoryColor } from "@/utils/colors";
 import { CategoryIconMap, TransactionTypeIconMap } from "@/utils/icons";
 
 export interface TransactionItemProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -13,7 +14,7 @@ export interface TransactionItemProps extends React.HTMLAttributes<HTMLDivElemen
   type: keyof typeof TransactionTypeIconMap;
   category: {
     name: string;
-    icon: string;
+    icon: keyof typeof CategoryIconMap;
     color: CategoryColor;
   };
 }
@@ -44,7 +45,7 @@ export function TransactionItem({ className, ...props }: TransactionItemProps) {
           R$
           {Math.abs(props.amount).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         </span>
-        <ValueIcon className="size-4 text-muted-foreground" />
+        <ValueIcon className={`size-4 ${TransactionTypeColorVariants[props.type]}`} />
       </div>
     </div>
   );
@@ -52,15 +53,7 @@ export function TransactionItem({ className, ...props }: TransactionItemProps) {
 
 const categoryIconVariants = cva("flex size-10 shrink-0 items-center justify-center rounded-lg", {
   variants: {
-    color: {
-      blue: "bg-financy-blue-light text-financy-blue-dark dark:text-financy-blue-light dark:bg-financy-blue-dark",
-      purple: "bg-financy-purple-light text-financy-purple-dark dark:text-financy-purple-light dark:bg-financy-purple-dark",
-      orange: "bg-financy-orange-light text-financy-orange-dark dark:text-financy-orange-light dark:bg-financy-orange-dark",
-      pink: "bg-financy-pink-light text-financy-pink-dark dark:text-financy-pink-light dark:bg-financy-pink-dark",
-      yellow: "bg-financy-yellow-light text-financy-yellow-dark dark:text-financy-yellow-light dark:bg-financy-yellow-dark",
-      green: "bg-financy-green-light text-financy-green-dark dark:text-financy-green-light dark:bg-financy-green-dark",
-      red: "bg-financy-red-light text-financy-red-dark dark:text-financy-red-light dark:bg-financy-red-dark",
-    },
+    color: categoryColorVariants,
   },
   defaultVariants: {
     color: "blue",
@@ -69,7 +62,7 @@ const categoryIconVariants = cva("flex size-10 shrink-0 items-center justify-cen
 
 export interface CategoryIconContainerProps extends React.ComponentProps<"div"> {
   color?: VariantProps<typeof categoryIconVariants>["color"];
-  icon: string;
+  icon: keyof typeof CategoryIconMap;
 }
 
 function CategoryIconContainer({ icon, color }: CategoryIconContainerProps) {

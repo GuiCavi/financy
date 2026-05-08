@@ -2,10 +2,6 @@ import { Asterisk, BaggageClaim, BookOpen, BriefcaseBusiness, CarFront, CircleAr
 
 import { TransactionValueType } from "@/types/transaction";
 
-export type CategoryColor = "blue" | "purple" | "pink" | "red" | "orange" | "yellow" | "green";
-
-export const CategoryColors: CategoryColor[] = ["blue", "purple", "pink", "red", "orange", "yellow", "green"];
-
 export const CategoryIconMap = {
   mailbox: Mailbox,
   bookOpen: BookOpen,
