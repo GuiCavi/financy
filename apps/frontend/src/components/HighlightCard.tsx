@@ -1,12 +1,14 @@
 import { DashboardCard, DashboardCardContent } from "@/components/DashboardCard";
 import { Item, ItemContent, ItemMedia, ItemTitle } from "@/components/ui/item";
 
+import type { ReactNode } from "react";
+
 export function HighlightCard({
   icon,
   title,
   value,
 }: {
-  icon: React.ReactNode;
+  icon: ReactNode;
   title: string;
   value: string;
 }) {
