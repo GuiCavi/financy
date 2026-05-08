@@ -67,9 +67,22 @@ export class CategoryResolver {
 
   @FieldResolver(() => Number)
   async totalAmount(
-    @Root() parent: CategoryModel ,
+    @Root() parent: CategoryModel,
     @WithCurrentUser() user: UserModel,
   ): Promise<number> {
     return this.transationService.sumAmountByCategory(parent.id, user.id);
+  }
+
+  @FieldResolver(() => Number)
+  async transactionsCount(
+    @Root() parent: CategoryModel,
+    @WithCurrentUser() user: UserModel,
+  ): Promise<number> {
+    return this.transationService.countTransactionsByCategory(parent.id, user.id);
+  }
+
+  @FieldResolver(() => String, { nullable: true })
+  iconName(@Root() category: any): string | null {
+    return category.iconName || category.icon;
   }
 }

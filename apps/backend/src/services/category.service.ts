@@ -1,9 +1,9 @@
+import { Category } from "../../prisma/generated/prisma/client";
 import { prisma } from "../../prisma/prisma";
 import { CreateCategoryInput, UpdateCategoryInput } from "../dtos/input/category.input";
-import { CategoryModel } from "../models/category.model";
 
 export class CategoryService {
-  async createCategory(data: CreateCategoryInput, userId: string): Promise<CategoryModel> {
+  async createCategory(data: CreateCategoryInput, userId: string): Promise<Category> {
     const existingCategory = await prisma.category.findFirst({
       where: {
         name: data.name,
@@ -19,6 +19,8 @@ export class CategoryService {
       data: {
         userId,
         name: data.name,
+        icon: data.iconName,
+        color: data.color,
       },
     });
 
@@ -41,11 +43,13 @@ export class CategoryService {
       where: { id },
       data: {
         name: data.name,
+        icon: data.iconName,
+        color: data.color,
       },
     });
   }
 
-  async listCategories(userId: string): Promise<CategoryModel[]> {
+  async listCategories(userId: string): Promise<Category[]> {
     return prisma.category.findMany({
       where: {
         userId,
@@ -70,7 +74,7 @@ export class CategoryService {
     });
   }
 
-  async findCategory(id: string): Promise<CategoryModel> {
+  async findCategory(id: string): Promise<Category> {
     const category = await prisma.category.findUnique({
       where: {
         id,

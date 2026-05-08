@@ -23,6 +23,12 @@ export class CategoryModel {
   @Field(() => Number)
   totalAmount?: number;
 
+  @Field(() => String, { nullable: true })
+  color?: string | null;
+
+  @Field(() => String, { nullable: true })
+  iconName?: string | null;
+
   @Field(() => GraphQLISODateTime)
   createdAt!: Date;
 

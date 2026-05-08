@@ -4,17 +4,22 @@
 # -----------------------------------------------
 
 type CategoryModel {
+  color: String
   createdAt: DateTimeISO!
+  iconName: String
   id: String!
   name: String!
   totalAmount: Float!
   transactions: [TransactionModel!]
+  transactionsCount: Float!
   updatedAt: DateTimeISO!
   user: UserModel
   userId: String!
 }
 
 input CreateCategoryInput {
+  color: String
+  iconName: String
   name: String!
 }
 
@@ -93,7 +98,9 @@ type TransactionModel {
 }
 
 input UpdateCategoryInput {
-  name: String!
+  color: String
+  iconName: String
+  name: String
 }
 
 input UpdateTransactionInput {
