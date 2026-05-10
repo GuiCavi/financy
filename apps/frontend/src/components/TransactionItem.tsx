@@ -3,8 +3,8 @@ import * as React from "react";
 
 import { CategoryTag } from "@/components/CategoryItem";
 import { cn } from "@/lib/utils";
-import { categoryColorVariants, TransactionTypeColorVariants } from "@/utils/colors";
 import type { CategoryColor } from "@/utils/colors";
+import { CategoryColorVariants, TransactionTypeColorVariants } from "@/utils/colors";
 import { CategoryIconMap, TransactionTypeIconMap } from "@/utils/icons";
 
 export interface TransactionItemProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -53,7 +53,7 @@ export function TransactionItem({ className, ...props }: TransactionItemProps) {
 
 const categoryIconVariants = cva("flex size-10 shrink-0 items-center justify-center rounded-lg", {
   variants: {
-    color: categoryColorVariants,
+    color: CategoryColorVariants,
   },
   defaultVariants: {
     color: "blue",

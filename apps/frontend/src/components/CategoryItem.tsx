@@ -3,12 +3,12 @@ import * as React from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { categoryColorVariants } from "@/utils/colors";
+import { CategoryColorVariants } from "@/utils/colors";
 import { formatCount } from "@/utils/text";
 
 export const categoryTagVariants = cva("", {
   variants: {
-    color: categoryColorVariants,
+    color: CategoryColorVariants,
   },
   defaultVariants: {
     color: "blue",

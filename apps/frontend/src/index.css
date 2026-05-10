@@ -107,6 +107,7 @@
   --color-card: var(--card);
   --color-foreground: var(--foreground);
   --color-background: var(--background);
+  --radius-xs: calc(var(--radius) * 0.4);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -189,4 +190,11 @@
 
 #root {
   height: 100vh;
+}
+
+.auto-grid {
+  --auto-grid-min: 248px;
+  --auto-grid-type: auto-fill;
+  display: grid;
+  grid-template-columns: repeat(var(--auto-grid-type), minmax(min(var(--auto-grid-min), 100%), 1fr));
 }

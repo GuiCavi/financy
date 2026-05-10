@@ -1,5 +1,5 @@
 import { ChevronRight, CircleArrowDown, CircleArrowUp, Plus, Wallet } from "lucide-react";
-import { Suspense } from "react";
+import { type CSSProperties, Suspense } from "react";
 
 import { CategoryItem } from "@/components/CategoryItem";
 import { DashboardCard, DashboardCardAction, DashboardCardContent, DashboardCardHeader } from "@/components/DashboardCard";
@@ -13,13 +13,13 @@ import { formatDate, formatMoney } from "@/utils/text";
 export default function Dashboard() {
   return (
     <div className="p-12 grid grid-cols-1 gap-6">
-      <div className="grid grid-cols-3 gap-6">
+      <div className="auto-grid gap-6" style={{ "--auto-grid-min": "300px", "--auto-grid-type": "auto-fit" } as CSSProperties}>
         <HighlightCard icon={<Wallet className="size-5 text-financy-purple-base" />} title="Saldo total" value="R$ 12.847,32" />
         <HighlightCard icon={<CircleArrowUp className="size-5 text-financy-green-base" />} title="Receitas do mês" value="R$ 12.847,32" />
         <HighlightCard icon={<CircleArrowDown className="size-5 text-financy-red-base" />} title="Despesas do mês" value="R$ 12.847,32" />
       </div>
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="auto-grid gap-6" style={{ "--auto-grid-min": "300px", "--auto-grid-type": "auto-fit" } as CSSProperties}>
         <DashboardCard className="col-span-2">
           <DashboardCardHeader
             action={
@@ -49,6 +49,7 @@ export default function Dashboard() {
               </DashboardTransactionsContainer>
             </Suspense>
           </DashboardCardContent>
+
           <div className="flex items-center justify-center border-t border-border p-5 px-6">
             <Button
               variant="ghost"
