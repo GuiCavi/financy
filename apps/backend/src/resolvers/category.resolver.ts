@@ -80,4 +80,9 @@ export class CategoryResolver {
   ): Promise<number> {
     return this.transationService.countTransactionsByCategory(parent.id, user.id);
   }
+
+  @FieldResolver(() => String)
+  async description(@Root() parent: CategoryModel): Promise<string> {
+    return parent.description || "";
+  }
 }

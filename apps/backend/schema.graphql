@@ -6,6 +6,7 @@
 type CategoryModel {
   color: String
   createdAt: DateTimeISO!
+  description: String
   icon: String
   id: String!
   name: String!
