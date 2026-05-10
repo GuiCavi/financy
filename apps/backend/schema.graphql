@@ -19,8 +19,9 @@ type CategoryModel {
 }
 
 input CreateCategoryInput {
-  color: String
-  icon: String
+  color: String!
+  description: String
+  icon: String!
   name: String!
 }
 

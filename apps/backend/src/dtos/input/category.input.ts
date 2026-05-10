@@ -6,10 +6,13 @@ export class CreateCategoryInput {
   name!: string;
 
   @Field(() => String, { nullable: true })
-  icon?: string;
+  description?: string;
 
-  @Field(() => String, { nullable: true })
-  color?: string;
+  @Field(() => String)
+  icon!: string;
+
+  @Field(() => String)
+  color!: string;
 }
 
 @InputType()
