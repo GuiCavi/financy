@@ -24,7 +24,7 @@ export function TransactionItem({ className, ...props }: TransactionItemProps) {
   const ValueIcon = TransactionTypeIconMap[props.type];
 
   return (
-    <div className={cn("flex items-center border-b border-border p-5 px-6", className)} {...props}>
+    <div className={cn("flex flex-wrap items-center border-b border-border p-5 px-6", className)} {...props}>
       <div className="flex flex-1 items-center gap-4">
         <CategoryIconContainer icon={props.category.icon} color={props.category.color} />
 
@@ -34,11 +34,11 @@ export function TransactionItem({ className, ...props }: TransactionItemProps) {
         </div>
       </div>
 
-      <div className="flex w-[160px] shrink-0 items-center justify-center">
+      <div className="flex px-4 shrink-0 items-center justify-center">
         <CategoryTag color={props.category.color}>{props.category.name}</CategoryTag>
       </div>
 
-      <div className="flex w-[160px] shrink-0 items-center justify-end gap-2">
+      <div className="flex shrink-0 items-center justify-end gap-2">
         <span className="text-sm font-semibold text-foreground">
           {isIncome ? "+" : "-"}
           {" "}

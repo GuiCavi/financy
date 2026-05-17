@@ -85,6 +85,6 @@ export class TransactionService {
 
   async sumAmountByCategory(categoryId: string, userId: string): Promise<number> {
     const transactions = await this.listTransactionsByCategory(categoryId, userId);
-    return transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
+    return transactions.reduce((acc, transaction) => acc + (transaction.amount * (transaction.type === "EXPENSE" ? -1 : 1)), 0);
   }
 }
