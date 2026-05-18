@@ -1,8 +1,12 @@
+import { useMutation } from "@apollo/client/react";
 import { SquarePen, Trash } from "lucide-react";
+import { toast } from "sonner";
 
 import { CategoryTag } from "@/components/CategoryItem";
 import { DashboardCard, DashboardCardContent } from "@/components/DashboardCard";
 import { Button } from "@/components/ui/button";
+import { DELETE_CATEGORY_MUTATION } from "@/graphql/mutations";
+import { DASHBOARD_LIST_CATEGORIES_QUERY } from "@/graphql/queries";
 import { cn } from "@/lib/utils";
 import type { DashboardListCategoriesOutput } from "@/types/category";
 import { CategoryColorVariants } from "@/utils/colors";
@@ -12,6 +16,20 @@ import { formatCount } from "@/utils/text";
 type Category = NonNullable<DashboardListCategoriesOutput["listCategories"]>[number];
 
 export function CategoryCard({ category }: { category: Category }) {
+  const [deleteCategory] = useMutation(DELETE_CATEGORY_MUTATION, {
+    onError: (error) => {
+      toast.error(error.message ?? "Falha ao excluir categoria");
+    },
+    onCompleted: () => {
+      toast.success("Categoria excluída");
+    },
+    refetchQueries: [{ query: DASHBOARD_LIST_CATEGORIES_QUERY }],
+  });
+
+  const handleDelete = () => {
+    deleteCategory({ variables: { categoryId: category.id } });
+  };
+
   const Icon = CategoryIconMap[category.icon as keyof typeof CategoryIconMap] || CategoryIconMap.asterisk;
 
   return (
@@ -27,7 +45,7 @@ export function CategoryCard({ category }: { category: Category }) {
           </div>
 
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="icon-sm">
+            <Button variant="outline" size="icon-sm" onClick={handleDelete}>
               <Trash className="size-4 text-financy-feedback-danger" />
             </Button>
             <Button variant="outline" size="icon-sm">
