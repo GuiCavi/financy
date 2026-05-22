@@ -9,6 +9,7 @@ export const DASHBOARD_LIST_TRANSACTIONS_QUERY = gql`
       amount
       type
       category {
+        id
         name
         icon
         color
