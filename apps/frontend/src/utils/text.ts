@@ -12,10 +12,11 @@ export function getInitials(name: string) {
     .toUpperCase();
 }
 
-export function formatMoney(value: number) {
+export function formatMoney(value: number, options?: Intl.NumberFormatOptions) {
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: "BRL",
+    ...options,
   }).format(value);
 }
 
