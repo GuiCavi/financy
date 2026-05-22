@@ -1,7 +1,7 @@
 import { CombinedGraphQLErrors } from "@apollo/client";
 import { useMutation } from "@apollo/client/react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { ChevronLeft, ChevronRight, Search, Trash } from "lucide-react";
+import { Search, Trash } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -9,6 +9,15 @@ import { CategoryTag } from "@/components/CategoryItem";
 import { EditTransactionDialog } from "@/components/EditTransactionDialog";
 import { Button } from "@/components/ui/button";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DELETE_TRANSACTION_MUTATION } from "@/graphql/mutations";
 import { DASHBOARD_LIST_CATEGORIES_QUERY, DASHBOARD_LIST_TRANSACTIONS_QUERY } from "@/graphql/queries";
@@ -16,6 +25,7 @@ import type { DashboardListCategoriesOutput } from "@/types/category";
 import type { DashboardListTransactionsOutput } from "@/types/transaction";
 import { CategoryColorVariants, TransactionTypeColorVariants } from "@/utils/colors";
 import { CategoryIconMap, TransactionTypeIconMap } from "@/utils/icons";
+import { formatMoney } from "@/utils/text";
 
 type Transaction = NonNullable<DashboardListTransactionsOutput["listTransactions"]>[number];
 type Category = NonNullable<DashboardListCategoriesOutput["listCategories"]>[number];
@@ -141,6 +151,38 @@ export function TransactionsContent({ transactions, categories }: TransactionsCo
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
     }
+  };
+
+  const getPageNumbers = () => {
+    const pages: (number | "ellipsis")[] = [];
+    const maxVisiblePages = 5;
+
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      pages.push(1);
+
+      if (currentPage > 3) {
+        pages.push("ellipsis");
+      }
+
+      const start = Math.max(2, currentPage - 1);
+      const end = Math.min(totalPages - 1, currentPage + 1);
+
+      for (let i = start; i <= end; i++) {
+        pages.push(i);
+      }
+
+      if (currentPage < totalPages - 2) {
+        pages.push("ellipsis");
+      }
+
+      pages.push(totalPages);
+    }
+
+    return pages;
   };
 
   const handleFilterChange = (filterType: "search" | "type" | "category" | "period", value: string) => {
@@ -281,7 +323,7 @@ export function TransactionsContent({ transactions, categories }: TransactionsCo
                           {" "}
                           R$
                           {" "}
-                          {Math.abs(t.amount).toLocaleString("pt-BR", {
+                          {formatMoney(Math.abs(t.amount), {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
                           })}
@@ -309,50 +351,65 @@ export function TransactionsContent({ transactions, categories }: TransactionsCo
           </div>
         )}
 
-        <div className="flex items-center justify-between border-t border-border px-6 py-4 bg-muted/10">
-          <span className="text-xs text-muted-foreground font-medium">
-            Mostrando
-            {" "}
-            {startItemIdx}
-            -
-            {endItemIdx}
-            {" "}
-            de
-            {" "}
-            {totalItems}
-            {" "}
-            transações
+        <div className="flex items-center justify-between border-t border-border px-6 py-4">
+          <span className="text-xs text-muted-foreground">
+            <span className="font-medium mr-1 text-foreground">{startItemIdx}</span>
+            a
+            <span className="font-medium mx-1 text-foreground">{endItemIdx}</span>
+            |
+            <span className="font-medium mx-1 text-foreground">{totalItems}</span>
+            resultados
           </span>
 
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="icon-sm"
-              disabled={currentPage === 1}
-              onClick={() => handlePageChange(currentPage - 1)}
-              className="disabled:opacity-50"
-            >
-              <ChevronLeft className="size-4" />
-            </Button>
-            <span className="text-xs font-semibold text-muted-foreground px-2">
-              Página
-              {" "}
-              {currentPage}
-              {" "}
-              de
-              {" "}
-              {totalPages}
-            </span>
-            <Button
-              variant="outline"
-              size="icon-sm"
-              disabled={currentPage === totalPages}
-              onClick={() => handlePageChange(currentPage + 1)}
-              className="disabled:opacity-50"
-            >
-              <ChevronRight className="size-4" />
-            </Button>
-          </div>
+          <Pagination className="w-auto mx-0">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  size="icon-sm"
+                  href="#"
+                  text=""
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (currentPage > 1) handlePageChange(currentPage - 1);
+                  }}
+                  className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                />
+              </PaginationItem>
+
+              {getPageNumbers().map((page, idx) => (
+                <PaginationItem key={idx}>
+                  {page === "ellipsis" ? (
+                    <PaginationEllipsis />
+                  ) : (
+                    <PaginationLink
+                      size="icon-sm"
+                      href="#"
+                      isActive={currentPage === page}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handlePageChange(page);
+                      }}
+                      className="cursor-pointer"
+                    >
+                      {page}
+                    </PaginationLink>
+                  )}
+                </PaginationItem>
+              ))}
+
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  text=""
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (currentPage < totalPages) handlePageChange(currentPage + 1);
+                  }}
+                  className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       </div>
     </div>
