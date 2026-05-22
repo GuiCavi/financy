@@ -3,7 +3,6 @@ import { Arg, Query, Resolver, UseMiddleware } from "type-graphql";
 import { IsAuth } from "../middlewares/auth.middleware";
 import { UserModel } from "../models/user.model";
 import { UserService } from "../services/user.service";
-import { WithCurrentUser } from "../graphql/decorators/user.decorator";
 
 @Resolver(() => UserModel)
 @UseMiddleware(IsAuth)
