@@ -16,6 +16,7 @@ export type DashboardListTransactionsOutput = {
     amount: number;
     type: TransactionType;
     category: {
+      id: string;
       name: string;
       icon: keyof typeof CategoryIconMap;
       color: CategoryColor;
