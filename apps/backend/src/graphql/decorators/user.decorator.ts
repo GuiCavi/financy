@@ -19,6 +19,7 @@ export const WithCurrentUser = () => {
         if (!user) throw new Error("Usuário não encontrado");
       } catch (error) {
         console.log("Error ao instanciar o gqluser");
+        console.log(error);
       }
 
       return user;

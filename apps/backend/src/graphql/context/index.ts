@@ -23,7 +23,9 @@ export const buildContext = async ({
     try {
       const payload = verifyJwt(token);
       user = payload.id;
-    } catch (error) {}
+    } catch (error) {
+      console.log({ error });
+    }
   }
 
   return {
