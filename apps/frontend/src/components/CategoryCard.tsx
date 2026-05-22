@@ -1,9 +1,10 @@
 import { useMutation } from "@apollo/client/react";
-import { SquarePen, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 import { toast } from "sonner";
 
 import { CategoryTag } from "@/components/CategoryItem";
 import { DashboardCard, DashboardCardContent } from "@/components/DashboardCard";
+import { EditCategoryDialog } from "@/components/EditCategoryDialog";
 import { Button } from "@/components/ui/button";
 import { DELETE_CATEGORY_MUTATION } from "@/graphql/mutations";
 import { DASHBOARD_LIST_CATEGORIES_QUERY } from "@/graphql/queries";
@@ -48,9 +49,7 @@ export function CategoryCard({ category }: { category: Category }) {
             <Button variant="outline" size="icon-sm" onClick={handleDelete}>
               <Trash className="size-4 text-financy-feedback-danger" />
             </Button>
-            <Button variant="outline" size="icon-sm">
-              <SquarePen className="size-4" />
-            </Button>
+            <EditCategoryDialog category={category} />
           </div>
         </div>
 

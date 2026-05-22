@@ -21,6 +21,9 @@ export class UpdateCategoryInput {
   name?: string;
 
   @Field(() => String, { nullable: true })
+  description?: string;
+
+  @Field(() => String, { nullable: true })
   icon?: string;
 
   @Field(() => String, { nullable: true })

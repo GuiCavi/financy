@@ -12,13 +12,18 @@ import { CategoryIconMap } from "@/utils/icons";
 
 import type { CSSProperties, SubmitEvent } from "react";
 
-export function AddCategoryForm({ onSubmit }: { onSubmit: (value: NewCategorySchema) => Promise<void> }) {
+type AddCategoryFormProps = {
+  onSubmit: (value: NewCategorySchema) => Promise<void>;
+  defaultValues?: Partial<NewCategorySchema>;
+};
+
+export function AddCategoryForm({ onSubmit, defaultValues }: AddCategoryFormProps) {
   const form = useForm({
     defaultValues: {
-      name: "",
-      description: "",
-      icon: "",
-      color: "",
+      name: defaultValues?.name ?? "",
+      description: defaultValues?.description ?? "",
+      icon: defaultValues?.icon ?? "",
+      color: defaultValues?.color ?? "",
     },
     validators: {
       onSubmit: newCategorySchema,

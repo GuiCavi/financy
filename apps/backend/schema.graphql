@@ -101,6 +101,7 @@ type TransactionModel {
 
 input UpdateCategoryInput {
   color: String
+  description: String
   icon: String
   name: String
 }
