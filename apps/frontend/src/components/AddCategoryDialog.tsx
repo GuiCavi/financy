@@ -1,6 +1,7 @@
 import { CombinedGraphQLErrors } from "@apollo/client";
 import { useMutation } from "@apollo/client/react";
 import { Plus } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,8 @@ import { CREATE_CATEGORY_MUTATION } from "@/graphql/mutations";
 import { DASHBOARD_LIST_CATEGORIES_QUERY } from "@/graphql/queries";
 
 export function AddCategoryDialog() {
+  const [open, setOpen] = useState(false);
+
   const [createCategory] = useMutation(CREATE_CATEGORY_MUTATION, {
     onError: (error) => {
       if (CombinedGraphQLErrors.is(error)) {
@@ -25,7 +28,7 @@ export function AddCategoryDialog() {
   });
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
           <Button className="flex items-center gap-2 bg-financy-brand-base px-3 py-2">
