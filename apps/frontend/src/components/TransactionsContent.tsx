@@ -1,8 +1,9 @@
 import { CombinedGraphQLErrors } from "@apollo/client";
 import { useMutation } from "@apollo/client/react";
+import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Search, Trash } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { CategoryTag } from "@/components/CategoryItem";
@@ -19,13 +20,16 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DELETE_TRANSACTION_MUTATION } from "@/graphql/mutations";
 import { DASHBOARD_LIST_CATEGORIES_QUERY, DASHBOARD_LIST_TRANSACTIONS_QUERY } from "@/graphql/queries";
 import type { DashboardListCategoriesOutput } from "@/types/category";
-import type { DashboardListTransactionsOutput } from "@/types/transaction";
+import { type DashboardListTransactionsOutput, TransactionValueType } from "@/types/transaction";
 import { CategoryColorVariants, TransactionTypeColorVariants } from "@/utils/colors";
 import { CategoryIconMap, TransactionTypeIconMap } from "@/utils/icons";
-import { formatMoney } from "@/utils/text";
+import { formatDate } from "@/utils/text";
+
+import { TransactionAmount } from "./TransactionItem";
 
 type Transaction = NonNullable<DashboardListTransactionsOutput["listTransactions"]>[number];
 type Category = NonNullable<DashboardListCategoriesOutput["listCategories"]>[number];
@@ -62,6 +66,8 @@ function CategoryIconContainer({ icon, color }: CategoryIconContainerProps) {
     </div>
   );
 }
+
+const columnHelper = createColumnHelper<Transaction>();
 
 export function TransactionsContent({ transactions, categories }: TransactionsContentProps) {
   const [search, setSearch] = useState("");
@@ -193,12 +199,105 @@ export function TransactionsContent({ transactions, categories }: TransactionsCo
     setCurrentPage(1);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = useCallback((id: string) => {
     deleteTransaction({ variables: { transactionId: id } });
-  };
+  }, [deleteTransaction]);
 
   const startItemIdx = totalItems === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1;
   const endItemIdx = Math.min(currentPage * ITEMS_PER_PAGE, totalItems);
+
+  const columns = useMemo(
+    () => [
+      columnHelper.accessor("description", {
+        header: () => <div className="text-left">Descrição</div>,
+        cell: ({ row }) => {
+          const t = row.original;
+
+          return (
+            <div className="flex items-center gap-4">
+              <CategoryIconContainer icon={t.category.icon} color={t.category.color} />
+              <span className="text-sm font-semibold text-foreground">{t.description}</span>
+            </div>
+          );
+        },
+      }),
+      columnHelper.accessor("date", {
+        header: () => "Data",
+        cell: (props) => <span className="text-xs text-foreground">{formatDate(props.row.original.date)}</span>,
+      }),
+      columnHelper.accessor("category", {
+        header: () => "Categoria",
+        cell: (props) => <CategoryTag color={props.row.original.category.color}>{props.row.original.category.name}</CategoryTag>,
+      }),
+      columnHelper.accessor("type", {
+        header: () => "Tipo",
+        cell: (props) => {
+          const t = props.row.original;
+          const isIncome = t.type === TransactionValueType.INCOME;
+          const typeColor = TransactionTypeColorVariants[t.type];
+          const ValueIcon = TransactionTypeIconMap[t.type];
+
+          return (
+            <div className="flex items-center justify-center gap-1.5">
+              <ValueIcon className={`size-4 ${typeColor}`} />
+              <span className={`text-sm font-semibold ${typeColor}`}>
+                {isIncome ? "Entrada" : "Saída"}
+              </span>
+            </div>
+          );
+        },
+      }),
+      columnHelper.accessor("amount", {
+        header: () => <div className="text-right">Valor</div>,
+        cell: (props) => (
+          <div className="flex justify-end">
+            <TransactionAmount amount={props.row.original.amount} type={props.row.original.type} />
+          </div>
+        ),
+      }),
+      columnHelper.display({
+        id: "actions",
+        header: () => <div className="text-right">Ações</div>,
+        cell: (props) => (
+          <div className="flex items-center justify-end gap-2">
+            <Button
+              variant="outline"
+              size="icon-sm"
+              onClick={() => handleDelete(props.row.original.id)}
+              className="hover:bg-financy-feedback-danger-light hover:text-financy-feedback-danger"
+            >
+              <Trash className="size-4 text-financy-feedback-danger" />
+            </Button>
+            <EditTransactionDialog transaction={props.row.original} categories={categories} />
+          </div>
+        ),
+      }),
+    ],
+    [categories, handleDelete],
+  );
+
+  const table = useReactTable({
+    data: paginatedTransactions,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    state: {
+      pagination: {
+        pageIndex: currentPage - 1,
+        pageSize: ITEMS_PER_PAGE,
+      },
+    },
+    onPaginationChange: (updater) => {
+      if (typeof updater === "function") {
+        const newState = updater({
+          pageIndex: currentPage - 1,
+          pageSize: ITEMS_PER_PAGE,
+        });
+        setCurrentPage(newState.pageIndex + 1);
+      }
+    },
+    manualPagination: true,
+    pageCount: totalPages,
+  });
 
   return (
     <div className="flex flex-col gap-6">
@@ -265,90 +364,30 @@ export function TransactionsContent({ transactions, categories }: TransactionsCo
             <span className="text-xs text-muted-foreground/60 mt-1">Experimente mudar seus filtros de busca</span>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-border bg-muted/20">
-                  <th className="px-6 py-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Descrição & Data</th>
-                  <th className="px-6 py-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider text-center">Categoria</th>
-                  <th className="px-6 py-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider text-center">Tipo</th>
-                  <th className="px-6 py-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider text-right">Valor</th>
-                  <th className="px-6 py-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider text-right">Ações</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
-                {paginatedTransactions.map((t) => {
-                  const isIncome = t.type === "INCOME";
-                  const ValueIcon = TransactionTypeIconMap[t.type];
-
-                  let localFormattedDate = t.date;
-                  if (t.date) {
-                    const dateParts = t.date.split("T")[0].split("-");
-                    if (dateParts.length === 3) {
-                      const year = dateParts[0];
-                      const month = MONTH_NAMES[parseInt(dateParts[1], 10) - 1];
-                      const day = parseInt(dateParts[2], 10);
-                      localFormattedDate = `${day} de ${month.toLowerCase()} de ${year}`;
-                    }
-                  }
-
-                  return (
-                    <tr key={t.id} className="hover:bg-muted/10 transition-colors">
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center gap-4">
-                          <CategoryIconContainer icon={t.category.icon} color={t.category.color} />
-                          <div className="flex flex-col">
-                            <span className="text-sm font-semibold text-foreground">{t.description}</span>
-                            <span className="text-xs text-muted-foreground mt-0.5">{localFormattedDate}</span>
-                          </div>
-                        </div>
-                      </td>
-
-                      <td className="px-6 py-4 whitespace-nowrap text-center">
-                        <CategoryTag color={t.category.color}>{t.category.name}</CategoryTag>
-                      </td>
-
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center justify-center gap-1.5">
-                          <ValueIcon className={`size-4 ${TransactionTypeColorVariants[t.type]}`} />
-                          <span className={`text-xs font-semibold ${TransactionTypeColorVariants[t.type]}`}>
-                            {isIncome ? "Entrada" : "Saída"}
-                          </span>
-                        </div>
-                      </td>
-
-                      <td className="px-6 py-4 whitespace-nowrap text-right">
-                        <span className={`text-sm font-bold ${TransactionTypeColorVariants[t.type]}`}>
-                          {isIncome ? "+" : "-"}
-                          {" "}
-                          R$
-                          {" "}
-                          {formatMoney(Math.abs(t.amount), {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                          })}
-                        </span>
-                      </td>
-
-                      <td className="px-6 py-4 whitespace-nowrap text-right">
-                        <div className="flex items-center justify-end gap-2">
-                          <EditTransactionDialog transaction={t} categories={categories} />
-                          <Button
-                            variant="outline"
-                            size="icon-sm"
-                            onClick={() => handleDelete(t.id)}
-                            className="hover:bg-financy-feedback-danger-light hover:text-financy-feedback-danger"
-                          >
-                            <Trash className="size-4 text-financy-feedback-danger" />
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <TableHead key={header.id} className="px-6 py-4 font-medium text-xs uppercase text-muted-foreground text-center">
+                      {flexRender(header.column.columnDef.header, header.getContext())}
+                    </TableHead>
+                  ))}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows.map((row) => (
+                <TableRow key={row.id} className="hover:bg-muted/10 transition-colors">
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id} className="px-6 py-4 whitespace-nowrap text-center">
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         )}
 
         <div className="flex items-center justify-between border-t border-border px-6 py-4">

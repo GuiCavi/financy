@@ -3,9 +3,11 @@ import * as React from "react";
 
 import { CategoryTag } from "@/components/CategoryItem";
 import { cn } from "@/lib/utils";
+import { TransactionValueType } from "@/types/transaction";
 import type { CategoryColor } from "@/utils/colors";
 import { CategoryColorVariants, TransactionTypeColorVariants } from "@/utils/colors";
 import { CategoryIconMap, TransactionTypeIconMap } from "@/utils/icons";
+import { formatMoney } from "@/utils/text";
 
 export interface TransactionItemProps extends React.HTMLAttributes<HTMLDivElement> {
   description: string;
@@ -19,8 +21,27 @@ export interface TransactionItemProps extends React.HTMLAttributes<HTMLDivElemen
   };
 }
 
+interface TransactionAmountProps extends React.HTMLAttributes<HTMLSpanElement> {
+  amount: number;
+  type: keyof typeof TransactionValueType;
+}
+
+export function TransactionAmount({ amount, type, className, ...props }: TransactionAmountProps) {
+  const isIncome = type === TransactionValueType.INCOME;
+
+  return (
+    <span className={cn("text-sm font-semibold", className)} {...props}>
+      {isIncome ? "+" : "-"}
+      {" "}
+      {formatMoney(Math.abs(amount), {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}
+    </span>
+  );
+}
+
 export function TransactionItem({ className, ...props }: TransactionItemProps) {
-  const isIncome = props.type === "INCOME";
   const ValueIcon = TransactionTypeIconMap[props.type];
 
   return (
@@ -39,12 +60,7 @@ export function TransactionItem({ className, ...props }: TransactionItemProps) {
       </div>
 
       <div className="flex shrink-0 items-center justify-end gap-2">
-        <span className="text-sm font-semibold text-foreground">
-          {isIncome ? "+" : "-"}
-          {" "}
-          R$
-          {Math.abs(props.amount).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-        </span>
+        <TransactionAmount amount={props.amount} type={props.type} />
         <ValueIcon className={`size-4 ${TransactionTypeColorVariants[props.type]}`} />
       </div>
     </div>
