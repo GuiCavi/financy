@@ -53,6 +53,12 @@ const categoryIconVariants = cva("flex size-10 shrink-0 items-center justify-cen
   },
 });
 
+const TypeLabels = {
+  ALL: "Todos",
+  INCOME: "Entrada",
+  EXPENSE: "Saída",
+} as const;
+
 interface CategoryIconContainerProps {
   color?: VariantProps<typeof categoryIconVariants>["color"];
   icon: keyof typeof CategoryIconMap;
@@ -301,38 +307,44 @@ export function TransactionsContent({ transactions, categories }: TransactionsCo
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-card border border-border p-4 rounded-xl shadow-sm">
-        <div className="flex-1 max-w-sm">
+      <div className="flex gap-4 bg-card border border-border p-4 rounded-xl shadow-sm">
+        <div className="flex flex-col gap-1 flex-1 min-w-[180px]">
+          <span className="text-xs text-muted-foreground">Buscar</span>
           <InputGroup>
             <InputGroupAddon align="inline-start">
               <Search className="size-4 text-muted-foreground" />
             </InputGroupAddon>
             <InputGroupInput
-              placeholder="Buscar transação pelo nome..."
+              placeholder="Buscar por descrição"
               value={search}
               onChange={(e) => handleFilterChange("search", e.target.value)}
             />
           </InputGroup>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
-          <Select value={typeFilter} onValueChange={(val) => handleFilterChange("type", val ?? "ALL")}>
-            <SelectTrigger className="w-[150px]">
-              <SelectValue placeholder="Todos os tipos" />
+        <div className="flex flex-col flex-1 gap-1">
+          <span className="text-xs text-muted-foreground">Tipo</span>
+          <Select value={TypeLabels[typeFilter]} onValueChange={(val) => handleFilterChange("type", val ?? "ALL")} >
+            <SelectTrigger className="w-full" size="lg">
+              <SelectValue placeholder="Todos" />
             </SelectTrigger>
-            <SelectContent className="bg-popover border border-border rounded-md shadow-lg p-1 min-w-[150px] z-50">
-              <SelectItem value="ALL">Todos os tipos</SelectItem>
-              <SelectItem value="INCOME">Entradas</SelectItem>
-              <SelectItem value="EXPENSE">Saídas</SelectItem>
+            <SelectContent className="bg-popover border border-border rounded-md shadow-lg p-1 min-w-[150px] z-50" alignItemWithTrigger={false}>
+              {Object.entries(TypeLabels).map(([key, value]) => <SelectItem value={key}>{value}</SelectItem>)}
             </SelectContent>
           </Select>
+        </div>
 
-          <Select value={categoryFilter} onValueChange={(val) => handleFilterChange("category", val ?? "ALL")}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Todas as categorias" />
+        <div className="flex flex-col flex-1 gap-1">
+          <span className="text-xs text-muted-foreground">Categoria</span>
+          <Select
+            value={findSelectedCategory(categories, categoryFilter)}
+            onValueChange={(val) => handleFilterChange("category", val ?? "ALL")}
+          >
+            <SelectTrigger className="w-full" size="lg">
+              <SelectValue placeholder="Todas" />
             </SelectTrigger>
-            <SelectContent className="bg-popover border border-border rounded-md shadow-lg p-1 min-w-[180px] z-50">
-              <SelectItem value="ALL">Todas as categorias</SelectItem>
+            <SelectContent className="bg-popover border border-border rounded-md shadow-lg p-1 min-w-[180px] z-50" alignItemWithTrigger={false}>
+              <SelectItem value="ALL">Todas</SelectItem>
               {categories.map((cat) => (
                 <SelectItem key={cat.id} value={cat.id}>
                   {cat.name}
@@ -340,12 +352,18 @@ export function TransactionsContent({ transactions, categories }: TransactionsCo
               ))}
             </SelectContent>
           </Select>
+        </div>
 
-          <Select value={periodFilter} onValueChange={(val) => handleFilterChange("period", val ?? "ALL")}>
-            <SelectTrigger className="w-[180px]">
+        <div className="flex flex-col flex-1 gap-1">
+          <span className="text-xs text-muted-foreground">Período</span>
+          <Select
+            value={findSelectedPeriod(uniquePeriods, periodFilter)}
+            onValueChange={(val) => handleFilterChange("period", val ?? "ALL")}
+          >
+            <SelectTrigger className="w-full" size="lg">
               <SelectValue placeholder="Todos os períodos" />
             </SelectTrigger>
-            <SelectContent className="bg-popover border border-border rounded-md shadow-lg p-1 min-w-[180px] z-50">
+            <SelectContent className="bg-popover border border-border rounded-md shadow-lg p-1 min-w-[180px] z-50" alignItemWithTrigger={false}>
               <SelectItem value="ALL">Todos os períodos</SelectItem>
               {uniquePeriods.map((period) => (
                 <SelectItem key={period.value} value={period.value}>
@@ -453,4 +471,12 @@ export function TransactionsContent({ transactions, categories }: TransactionsCo
       </div>
     </div>
   );
+}
+
+function findSelectedPeriod(uniquePeriods: { label: string; value: string }[], periodFilter: string): string {
+  return uniquePeriods.find((cat) => cat.value === periodFilter)?.label ?? "Todos";
+}
+
+function findSelectedCategory(categories: Category[], categoryFilter: string): string {
+  return categories.find((cat) => cat.id === categoryFilter)?.name ?? "Todas";
 }
