@@ -41,7 +41,6 @@ export function TransactionForm({ onSubmit, defaultValues, categories }: Transac
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <FieldGroup>
-        {/* Type field: custom Entrada/Saída tabs */}
         <form.Field
           name="type"
           children={(field) => {
@@ -82,7 +81,6 @@ export function TransactionForm({ onSubmit, defaultValues, categories }: Transac
           }}
         />
 
-        {/* Description field */}
         <form.Field
           name="description"
           children={(field) => {
@@ -109,7 +107,6 @@ export function TransactionForm({ onSubmit, defaultValues, categories }: Transac
           }}
         />
 
-        {/* Amount field */}
         <form.Field
           name="amount"
           children={(field) => {
@@ -138,7 +135,6 @@ export function TransactionForm({ onSubmit, defaultValues, categories }: Transac
           }}
         />
 
-        {/* Category ID select field */}
         <form.Field
           name="categoryId"
           children={(field) => {
@@ -148,7 +144,7 @@ export function TransactionForm({ onSubmit, defaultValues, categories }: Transac
               <Field data-invalid={isInvalid}>
                 <FieldLabel>Categoria</FieldLabel>
                 <Select
-                  value={field.state.value}
+                  value={categories.find((cat) => cat.id === field.state.value)?.name ?? ""}
                   onValueChange={(val) => field.handleChange(val || "")}
                 >
                   <SelectTrigger className="w-full flex h-10 items-center justify-between border border-border bg-transparent rounded-md px-3 text-sm">
@@ -176,7 +172,6 @@ export function TransactionForm({ onSubmit, defaultValues, categories }: Transac
           }}
         />
 
-        {/* Date picker field */}
         <form.Field
           name="date"
           children={(field) => {
