@@ -45,8 +45,8 @@ export function TransactionItem({ className, ...props }: TransactionItemProps) {
   const ValueIcon = TransactionTypeIconMap[props.type];
 
   return (
-    <div className={cn("flex flex-wrap items-center border-b border-border p-5 px-6", className)} {...props}>
-      <div className="flex flex-1 items-center gap-4">
+    <div className={cn("flex items-center border-b border-border p-5 px-6", className)} {...props}>
+      <div className="flex items-center gap-4">
         <CategoryIconContainer icon={props.category.icon} color={props.category.color} />
 
         <div className="flex flex-col gap-0.5">
@@ -55,11 +55,11 @@ export function TransactionItem({ className, ...props }: TransactionItemProps) {
         </div>
       </div>
 
-      <div className="flex px-4 shrink-0 items-center justify-center">
+      <div className="flex ml-auto w-40 px-4 shrink-0 items-center justify-center">
         <CategoryTag color={props.category.color}>{props.category.name}</CategoryTag>
       </div>
 
-      <div className="flex shrink-0 items-center justify-end gap-2">
+      <div className="flex shrink-0 w-40 items-center justify-end gap-2">
         <TransactionAmount amount={props.amount} type={props.type} />
         <ValueIcon className={`size-4 ${TransactionTypeColorVariants[props.type]}`} />
       </div>

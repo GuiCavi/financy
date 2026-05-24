@@ -1,6 +1,8 @@
 import { ChevronRight, CircleArrowDown, CircleArrowUp, Plus, Wallet } from "lucide-react";
 import { type CSSProperties, Suspense } from "react";
+import { useNavigate } from "react-router";
 
+import { AddTransactionDialog } from "@/components/AddTransactionDialog";
 import { CategoryItem } from "@/components/CategoryItem";
 import { DashboardCard, DashboardCardAction, DashboardCardContent, DashboardCardHeader } from "@/components/DashboardCard";
 import { HighlightCard } from "@/components/HighlightCard";
@@ -12,6 +14,8 @@ import { useDashboardHighhlights } from "@/hooks/use-dashboard-highlights";
 import { formatDate, formatMoney } from "@/utils/text";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+
   const summary = useDashboardHighhlights();
 
   return (
@@ -26,7 +30,7 @@ export default function Dashboard() {
         <DashboardCard className="col-span-2">
           <DashboardCardHeader
             action={
-              <DashboardCardAction icon={<ChevronRight className="size-5" />}>
+              <DashboardCardAction icon={<ChevronRight className="size-5" />} onClick={() => navigate("/transactions")}>
                 Ver todas
               </DashboardCardAction>
             }
@@ -54,23 +58,25 @@ export default function Dashboard() {
           </DashboardCardContent>
 
           <div className="flex items-center justify-center border-t border-border p-5 px-6">
-            <Button
-              variant="ghost"
-              size="xs"
-              type="button"
-              className="flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80"
-            >
-              <Plus className="size-5" />
-              {" "}
-              Nova transação
-            </Button>
+            <Suspense fallback={null}>
+              <DashboardCategoriesContainer>
+                {(categories) => (
+                  <AddTransactionDialog categories={categories}>
+                    <Button variant="ghost" size="sm" className="text-primary transition-colors hover:text-primary">
+                      <Plus className="size-4" />
+                      Nova transação
+                    </Button>
+                  </AddTransactionDialog>
+                )}
+              </DashboardCategoriesContainer>
+            </Suspense>
           </div>
         </DashboardCard>
 
         <DashboardCard>
           <DashboardCardHeader
             action={
-              <DashboardCardAction icon={<ChevronRight className="size-5" />}>
+              <DashboardCardAction icon={<ChevronRight className="size-5" />} onClick={() => navigate("/categories")}>
                 Gerenciar
               </DashboardCardAction>
             }

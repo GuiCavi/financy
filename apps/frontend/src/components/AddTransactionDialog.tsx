@@ -1,10 +1,8 @@
 import { CombinedGraphQLErrors } from "@apollo/client";
 import { useMutation } from "@apollo/client/react";
-import { Plus } from "lucide-react";
-import { useState } from "react";
+import { type PropsWithChildren, type ReactElement, useState } from "react";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { TransactionForm } from "@/forms/TransactionForm";
 import { CREATE_TRANSACTION_MUTATION } from "@/graphql/mutations";
@@ -14,7 +12,7 @@ interface AddTransactionDialogProps {
   categories: { id: string; name: string }[];
 }
 
-export function AddTransactionDialog({ categories }: AddTransactionDialogProps) {
+export function AddTransactionDialog({ categories, children }: PropsWithChildren<AddTransactionDialogProps>) {
   const [open, setOpen] = useState(false);
 
   const [createTransaction] = useMutation(CREATE_TRANSACTION_MUTATION, {
@@ -37,15 +35,8 @@ export function AddTransactionDialog({ categories }: AddTransactionDialogProps) 
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger
-        render={
-          <Button className="flex items-center gap-2 bg-financy-brand-base text-white px-3 py-2 hover:bg-financy-brand-dark transition-colors rounded-md text-sm font-semibold">
-            <Plus className="size-4" />
-            Nova transação
-          </Button>
-        }
-      />
-      <DialogContent className="sm:max-w-112">
+      <DialogTrigger render={children as ReactElement} />
+      <DialogContent className="sm:max-w-md ">
         <DialogHeader>
           <DialogTitle className="font-semibold text-lg">Nova transação</DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground">
