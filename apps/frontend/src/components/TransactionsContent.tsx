@@ -74,6 +74,7 @@ function CategoryIconContainer({ icon, color }: CategoryIconContainerProps) {
 }
 
 const columnHelper = createColumnHelper<Transaction>();
+const ITEMS_PER_PAGE = 10;
 
 export function TransactionsContent({ transactions, categories }: TransactionsContentProps) {
   const [search, setSearch] = useState("");
@@ -81,8 +82,6 @@ export function TransactionsContent({ transactions, categories }: TransactionsCo
   const [categoryFilter, setCategoryFilter] = useState("ALL");
   const [periodFilter, setPeriodFilter] = useState("ALL");
   const [currentPage, setCurrentPage] = useState(1);
-
-  const ITEMS_PER_PAGE = 10;
 
   const [deleteTransaction] = useMutation(DELETE_TRANSACTION_MUTATION, {
     onError: (error) => {

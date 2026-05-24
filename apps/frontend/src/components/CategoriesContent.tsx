@@ -13,8 +13,8 @@ type Category = NonNullable<DashboardListCategoriesOutput["listCategories"]>[num
 export function CategoriesContent({ categories }: { categories: Category[] }) {
   const summary = useMemo(() => {
     const totalCategories = categories.length;
-    const totalTransactions = categories.reduce((acc, cat) => acc + (cat.transactionsCount || 0), 0);
-    const mostUsedCategory = [...categories].sort((a, b) => (b.transactionsCount || 0) - (a.transactionsCount || 0))[0];
+    const totalTransactions = categories.reduce((acc, cat) => acc + cat.transactionsCount, 0);
+    const mostUsedCategory = [...categories].sort((a, b) => b.transactionsCount - a.transactionsCount)[0];
 
     return {
       totalCategories,
@@ -23,8 +23,8 @@ export function CategoriesContent({ categories }: { categories: Category[] }) {
     };
   }, [categories]);
 
-  const Icon = CategoryIconMap[summary.mostUsedCategory.icon];
-  const color = summary.mostUsedCategory.color;
+  const Icon = summary.mostUsedCategory ? CategoryIconMap[summary.mostUsedCategory.icon] : CategoryIconMap.asterisk;
+  const color = summary.mostUsedCategory ? summary.mostUsedCategory.color : "blue";
 
   return (
     <div className="grid grid-cols-1 gap-8">

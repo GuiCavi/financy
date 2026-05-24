@@ -8,11 +8,9 @@ import type { ReactNode } from "react";
 type CategoriesData = NonNullable<DashboardListCategoriesOutput["listCategories"]>;
 
 export function CategoriesContainer({ children }: { children: (data: CategoriesData) => ReactNode }) {
-  const { data } = useSuspenseQuery<DashboardListCategoriesOutput>(DASHBOARD_LIST_CATEGORIES_QUERY);
+  const { data: categoriesData } = useSuspenseQuery<DashboardListCategoriesOutput>(DASHBOARD_LIST_CATEGORIES_QUERY);
 
-  if (!data.listCategories) {
-    return <span>Nenhuma categoria encontrada</span>;
-  }
+  const categories = categoriesData.listCategories ?? [];
 
-  return children(data.listCategories);
+  return children(categories);
 }

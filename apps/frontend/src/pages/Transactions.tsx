@@ -12,7 +12,7 @@ export default function Transactions() {
     <div className="p-12 flex flex-col gap-6">
       <PageHeader
         title="Transações"
-        description="Gerencie e acompanhe seus ganhos e despesas"
+        description="Gerencie todas as suas transações financeiras"
         action={
           <Suspense fallback={null}>
             <TransactionsContainer>
