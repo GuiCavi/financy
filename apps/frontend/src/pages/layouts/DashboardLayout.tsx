@@ -1,5 +1,5 @@
 import { LogOut } from "lucide-react";
-import { NavLink, Outlet } from "react-router";
+import { NavLink, Outlet, useNavigate } from "react-router";
 
 import logoImg from "@/assets/Logo.svg";
 import { ToggleTheme } from "@/components/toggle-theme";
@@ -13,6 +13,7 @@ import type { NavigationMenuLinkProps } from "@base-ui/react/navigation-menu";
 
 export function DashboardLayout() {
   const user = useUser();
+  const navigate = useNavigate();
   const { logout } = useAuthStore();
 
   return (
@@ -36,7 +37,7 @@ export function DashboardLayout() {
 
         <div className="flex flex-row items-center gap-4">
           <ToggleTheme />
-          <Avatar>
+          <Avatar onClick={() => navigate("/profile")}>
             {/* <AvatarImage src={user?.avatarUrl } /> */}
             <AvatarFallback className="bg-financy-grayscale-300 text-financy-grayscale-800">{getInitials(user.name)}</AvatarFallback>
           </Avatar>
