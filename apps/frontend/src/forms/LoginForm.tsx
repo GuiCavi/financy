@@ -129,7 +129,7 @@ export function LoginForm({ onSubmit }: { onSubmit: (value: LoginSchema) => void
       </div>
 
       <p className="text-muted-foreground text-sm mb-4">Ainda não tem uma conta?</p>
-      <Button variant="outline" className="w-full" onClick={() => navigate("/register")}>
+      <Button variant="outline" className="w-full gap-2" onClick={() => navigate("/register")}>
         <UserRoundPlus data-icon="inline-start" />
         Criar conta
       </Button>

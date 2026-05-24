@@ -146,7 +146,7 @@ export function RegisterForm({ onSubmit }: { onSubmit: (value: RegisterSchema) =
       </div>
 
       <p className="text-muted-foreground text-sm mb-4">Já tem uma conta?</p>
-      <Button variant="outline" className="w-full" onClick={() => navigate("/login")}>
+      <Button variant="outline" className="w-full gap-2" onClick={() => navigate("/login")}>
         <LogIn />
         Fazer login
       </Button>
