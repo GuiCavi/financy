@@ -46,6 +46,15 @@ export function CategoriesContent({ categories }: { categories: Category[] }) {
         />
       </div>
 
+      {categories.length === 0 && (
+        <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
+          <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
+            <span className="text-sm text-muted-foreground font-medium">Nenhuma categoria encontrada</span>
+            <span className="text-xs text-muted-foreground/60 mt-1">Você pode adicionar uma nova categoria no botão acima</span>
+          </div>
+        </div>
+      )}
+
       <div className="grid gap-4 items-stretch auto-grid">
         {categories.map((category) => (
           <CategoryCard key={category.id} category={category} />
