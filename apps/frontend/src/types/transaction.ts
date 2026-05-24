@@ -8,6 +8,11 @@ export const TransactionValueType = {
   EXPENSE: "EXPENSE",
 } as const;
 
+export const TranscationValueLabel = {
+  [TransactionValueType.INCOME]: "Entrada",
+  [TransactionValueType.EXPENSE]: "Saída",
+} as const;
+
 export type DashboardListTransactionsOutput = {
   listTransactions?: {
     id: string;
