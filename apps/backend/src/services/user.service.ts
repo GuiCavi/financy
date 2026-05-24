@@ -1,4 +1,5 @@
 import { prisma } from "../../prisma/prisma";
+import { UpdateUserInput } from "../dtos/input/user.input";
 import { UserModel } from "../models/user.model";
 
 export class UserService {
@@ -18,5 +19,16 @@ export class UserService {
 
   async listUsers(): Promise<UserModel[]> {
     return prisma.user.findMany();
+  }
+
+  async updateUser(data: UpdateUserInput, id: string) {
+    return prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        name: data.name,
+      },
+    });
   }
 }
