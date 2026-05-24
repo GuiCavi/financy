@@ -1,110 +1,42 @@
-import { CombinedGraphQLErrors } from "@apollo/client";
-import { toast } from "sonner";
+import { useSuspenseQuery } from "@apollo/client/react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import { LOGIN_MUTATION } from "@/graphql/mutations/login";
-import { REGISTER_MUTATION } from "@/graphql/mutations/register";
+import { ME_QUERY } from "@/graphql/queries";
 import { apolloClient } from "@/lib/apollo";
 
-import type { LoginInput, LoginOutput, RegisterInput, RegisterOutput, User } from "../types/auth";
+import type { MeOutput } from "../types/auth";
 
 interface AuthState {
-  user: User | null;
   token: string | null;
   isAuthenticated: boolean;
-  signup: (data: RegisterInput) => Promise<void>;
-  login: (data: LoginInput) => Promise<void>;
+  setToken: (token: string) => void;
   logout: () => void;
 }
 
 export const useAuthStore = create<AuthState>()(persist((set) => ({
-  user: null,
   token: null,
   isAuthenticated: false,
-  signup: async (input: RegisterInput) => {
-    try {
-      const { data } = await apolloClient.mutate<RegisterOutput, RegisterInput>({
-        mutation: REGISTER_MUTATION,
-        variables: {
-          data: {
-            name: input.data.name,
-            email: input.data.email,
-            password: input.data.password,
-          },
-        },
-      });
-
-      if (!data) {
-        throw new Error("Não foi possível registrar sua conta");
-      }
-
-      if (data.register) {
-        set({
-          user: data.register.user,
-          token: data.register.token,
-          isAuthenticated: true,
-        });
-      } else {
-        toast.error("Não foi possível registrar sua conta");
-      }
-    } catch (error) {
-      if (CombinedGraphQLErrors.is(error)) {
-        toast.error(error.errors[0].message);
-      } else {
-        toast.error("Não foi possível registrar sua conta");
-      }
-    }
-  },
-  login: async (input: LoginInput) => {
-    try {
-      const { data } = await apolloClient.mutate<LoginOutput, LoginInput>({
-        mutation: LOGIN_MUTATION,
-        variables: {
-          data: {
-            email: input.data.email,
-            password: input.data.password,
-          },
-        },
-      });
-
-      if (!data) {
-        throw new Error("Não foi possível fazer login");
-      }
-
-      if (data.login) {
-        set({
-          user: data.login.user,
-          token: data.login.token,
-          isAuthenticated: true,
-        });
-      } else {
-        toast.error("Não foi possível fazer login");
-      }
-    } catch (error) {
-      if (CombinedGraphQLErrors.is(error)) {
-        toast.error(error.errors[0].message);
-      } else {
-        toast.error("Não foi possível fazer login");
-      }
-    }
+  setToken: (token: string) => {
+    set({
+      token,
+      isAuthenticated: true,
+    });
   },
   logout: () => {
-    set({ user: null, token: null, isAuthenticated: false });
+    set({ token: null, isAuthenticated: false });
     apolloClient.resetStore();
   },
 }), {
   name: "@financy/auth",
 }));
 
-useAuthStore.subscribe((state) => {
-  console.info("🚀 ~ state:", state);
-});
-
 export const useUser = () => {
-  const user = useAuthStore((state) => state.user);
-  if (!user) {
+  const { data } = useSuspenseQuery<MeOutput>(ME_QUERY);
+
+  if (!data?.me?.user) {
     throw new Error("useUser must be used within an authenticated route");
   }
-  return user;
+
+  return data.me.user;
 };

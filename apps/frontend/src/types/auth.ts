@@ -36,3 +36,9 @@ export type LoginOutput = {
     user: User;
   };
 };
+
+export type MeOutput = {
+  me?: {
+    user: User;
+  };
+};

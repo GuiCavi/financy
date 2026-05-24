@@ -1,8 +1,8 @@
 import { LoginForm } from "@/forms/LoginForm";
-import { useAuthStore } from "@/stores/auth";
+import { useLogin } from "@/hooks/use-login";
 
 export default function Login() {
-  const { login } = useAuthStore();
+  const { login } = useLogin();
 
   return (
     <LoginForm onSubmit={(value) => login({ data: { email: value.email, password: value.password } })} />

@@ -1,10 +1,18 @@
 import { RegisterForm } from "@/forms/RegisterForm";
-import { useAuthStore } from "@/stores/auth";
+import { useRegister } from "@/hooks/use-register";
 
 export default function Register() {
-  const { signup } = useAuthStore();
+  const { register } = useRegister();
 
   return (
-    <RegisterForm onSubmit={(value) => signup({ data: { name: value.fullName, email: value.email, password: value.password } })} />
+    <RegisterForm
+      onSubmit={(value) => register({
+        data: {
+          name: value.fullName,
+          email: value.email,
+          password: value.password,
+        },
+      })}
+    />
   );
 }
