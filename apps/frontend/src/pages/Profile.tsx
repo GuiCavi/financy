@@ -9,7 +9,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/in
 import { Separator } from "@/components/ui/separator";
 import type { UpdateUserSchema } from "@/forms/schemas/update-user-data";
 import { useUpdateUserData } from "@/hooks/use-update-user-data";
-import { useUser } from "@/stores/auth";
+import { useAuthStore, useUser } from "@/stores/auth";
 import { getInitials } from "@/utils/text";
 
 type AddCategoryFormProps = {
@@ -93,7 +93,12 @@ function EditProfileForm({ onSubmit, defaultValues }: AddCategoryFormProps) {
 
 export default function Profile() {
   const user = useUser();
+  const { logout } = useAuthStore();
   const { updateUserData } = useUpdateUserData();
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <main className="flex flex-col">
@@ -122,7 +127,7 @@ export default function Profile() {
         }}
       />
 
-      <Button variant="outline" className="mt-6 w-full">
+      <Button variant="outline" className="mt-6 w-full gap-2" onClick={handleLogout}>
         <LogOut className="text-financy-feedback-danger" />
         Sair da conta
       </Button>
