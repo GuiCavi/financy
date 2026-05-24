@@ -1,7 +1,8 @@
 import { useMutation } from "@apollo/client/react";
 import { toast } from "sonner";
 
-import { LOGIN_MUTATION, UPDATE_USER_DATA_MUTATION } from "@/graphql/mutations";
+import { ME_QUERY } from "@/graphql";
+import { UPDATE_USER_DATA_MUTATION } from "@/graphql/mutations";
 import { handleGraphQLErrors } from "@/utils/graphql";
 
 export function useUpdateUserData() {
@@ -12,7 +13,7 @@ export function useUpdateUserData() {
     onCompleted: () => {
       toast.success("Dados do usuário atualizados com sucesso");
     },
-    refetchQueries: [{ query: LOGIN_MUTATION }],
+    refetchQueries: [{ query: ME_QUERY }],
   });
 
   return { updateUserData, loading };

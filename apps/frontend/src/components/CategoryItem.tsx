@@ -6,8 +6,6 @@ import { cn } from "@/lib/utils";
 import { CategoryColorVariants } from "@/utils/colors";
 import { formatCount } from "@/utils/text";
 
-import { TransactionAmount } from "./TransactionItem";
-
 export const categoryTagVariants = cva("", {
   variants: {
     color: CategoryColorVariants,

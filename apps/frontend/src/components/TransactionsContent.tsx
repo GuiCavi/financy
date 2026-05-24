@@ -20,15 +20,15 @@ import {
 } from "@/components/ui/pagination";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { DASHBOARD_LIST_CATEGORIES_QUERY, DASHBOARD_LIST_TRANSACTIONS_QUERY } from "@/graphql";
 import { DELETE_TRANSACTION_MUTATION } from "@/graphql/mutations";
-import { DASHBOARD_LIST_CATEGORIES_QUERY, DASHBOARD_LIST_TRANSACTIONS_QUERY } from "@/graphql/queries";
 import type { DashboardListCategoriesOutput } from "@/types/category";
 import { type DashboardListTransactionsOutput, TranscationValueLabel } from "@/types/transaction";
 import { CategoryColorVariants, TransactionTypeColorVariants } from "@/utils/colors";
+import { handleGraphQLErrors } from "@/utils/graphql";
 import { CategoryIconMap, TransactionTypeIconMap } from "@/utils/icons";
 import { formatDate } from "@/utils/text";
 
-import { handleGraphQLErrors } from "@/utils/graphql";
 import { TransactionAmount } from "./TransactionItem";
 
 type Transaction = NonNullable<DashboardListTransactionsOutput["listTransactions"]>[number];
