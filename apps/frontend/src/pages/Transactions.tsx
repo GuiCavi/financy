@@ -18,7 +18,7 @@ export default function Transactions() {
             <TransactionsContainer>
               {({ categories }) => (
                 <AddTransactionDialog categories={categories}>
-                  <Button className="flex items-center gap-2 bg-financy-brand-base text-white px-3 py-2 hover:bg-financy-brand-dark transition-colors rounded-md text-sm font-semibold">
+                  <Button className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-semibold">
                     <Plus className="size-4" />
                     Nova transação
                   </Button>

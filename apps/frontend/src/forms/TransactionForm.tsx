@@ -192,8 +192,8 @@ export function TransactionForm({ onSubmit, defaultValues, categories }: Transac
       <form.Subscribe selector={(state) => state.isSubmitting}>
         {(isSubmitting) => (
           <Field className="mt-6 flex justify-end">
-            <Button type="submit" disabled={isSubmitting} className="w-full bg-financy-brand-base text-white hover:bg-financy-brand-dark transition-colors">
-              {isSubmitting ? <Loader2 className="size-4 animate-spin mr-2" /> : null}
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting && <Loader2 className="size-4 animate-spin mr-2" />}
               Salvar
             </Button>
           </Field>

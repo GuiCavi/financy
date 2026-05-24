@@ -76,7 +76,7 @@ export function EditProfileForm({ onSubmit, defaultValues }: EditProfileFormProp
       <form.Subscribe selector={(state) => state.isSubmitting}>
         {(isSubmitting) => (
           <Field className="mt-6 flex justify-end">
-            <Button type="submit" disabled={isSubmitting} className="w-full bg-financy-brand-base text-white hover:bg-financy-brand-dark transition-colors">
+            <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? (<Loader2 className="size-4 animate-spin" />) : "Salvar alterações"}
             </Button>
           </Field>

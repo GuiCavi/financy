@@ -14,7 +14,7 @@ export function AddCategoryDialog() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
-          <Button className="flex items-center gap-2 bg-financy-brand-base text-white px-3 py-2 hover:bg-financy-brand-dark transition-colors rounded-md text-sm font-semibold">
+          <Button className="flex items-center gap-2 text-white px-3 py-2 transition-colors rounded-md text-sm font-semibold">
             <Plus className="size-5" />
             Nova categoria
           </Button>
