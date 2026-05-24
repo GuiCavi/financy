@@ -45,7 +45,7 @@ export function AddTransactionDialog({ categories }: AddTransactionDialogProps) 
           </Button>
         }
       />
-      <DialogContent className="max-w-[450px]">
+      <DialogContent className="sm:max-w-112">
         <DialogHeader>
           <DialogTitle className="font-semibold text-lg">Nova transação</DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground">

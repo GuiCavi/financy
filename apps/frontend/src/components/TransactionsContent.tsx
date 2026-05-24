@@ -24,7 +24,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { DELETE_TRANSACTION_MUTATION } from "@/graphql/mutations";
 import { DASHBOARD_LIST_CATEGORIES_QUERY, DASHBOARD_LIST_TRANSACTIONS_QUERY } from "@/graphql/queries";
 import type { DashboardListCategoriesOutput } from "@/types/category";
-import { type DashboardListTransactionsOutput, TransactionValueType } from "@/types/transaction";
+import { type DashboardListTransactionsOutput, TranscationValueLabel } from "@/types/transaction";
 import { CategoryColorVariants, TransactionTypeColorVariants } from "@/utils/colors";
 import { CategoryIconMap, TransactionTypeIconMap } from "@/utils/icons";
 import { formatDate } from "@/utils/text";
@@ -239,7 +239,6 @@ export function TransactionsContent({ transactions, categories }: TransactionsCo
         header: () => "Tipo",
         cell: (props) => {
           const t = props.row.original;
-          const isIncome = t.type === TransactionValueType.INCOME;
           const typeColor = TransactionTypeColorVariants[t.type];
           const ValueIcon = TransactionTypeIconMap[t.type];
 
@@ -247,7 +246,7 @@ export function TransactionsContent({ transactions, categories }: TransactionsCo
             <div className="flex items-center justify-center gap-1.5">
               <ValueIcon className={`size-4 ${typeColor}`} />
               <span className={`text-sm font-semibold ${typeColor}`}>
-                {isIncome ? "Entrada" : "Saída"}
+                {TranscationValueLabel[t.type]}
               </span>
             </div>
           );
