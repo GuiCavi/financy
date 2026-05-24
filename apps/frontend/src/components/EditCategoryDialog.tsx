@@ -1,35 +1,17 @@
-import { CombinedGraphQLErrors } from "@apollo/client";
-import { useMutation } from "@apollo/client/react";
 import { SquarePen } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AddCategoryForm } from "@/forms/AddCategoryForm";
-import { UPDATE_CATEGORY_MUTATION } from "@/graphql/mutations";
-import { DASHBOARD_LIST_CATEGORIES_QUERY } from "@/graphql/queries";
+import { useUpdateCategory } from "@/hooks/use-update-category";
 import type { DashboardListCategoriesOutput } from "@/types/category";
 
 type Category = NonNullable<DashboardListCategoriesOutput["listCategories"]>[number];
 
 export function EditCategoryDialog({ category }: { category: Category }) {
   const [open, setOpen] = useState(false);
-
-  const [updateCategory] = useMutation(UPDATE_CATEGORY_MUTATION, {
-    onError: (error) => {
-      if (CombinedGraphQLErrors.is(error)) {
-        toast.error(error.errors[0].message);
-      } else {
-        toast.error("Não foi possível atualizar a categoria");
-      }
-    },
-    onCompleted: () => {
-      toast.success("Categoria atualizada com sucesso");
-      setOpen(false);
-    },
-    refetchQueries: [{ query: DASHBOARD_LIST_CATEGORIES_QUERY }],
-  });
+  const { updateCategory } = useUpdateCategory();
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

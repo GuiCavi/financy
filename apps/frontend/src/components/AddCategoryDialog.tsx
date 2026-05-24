@@ -1,31 +1,14 @@
-import { CombinedGraphQLErrors } from "@apollo/client";
-import { useMutation } from "@apollo/client/react";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AddCategoryForm } from "@/forms/AddCategoryForm";
-import { CREATE_CATEGORY_MUTATION } from "@/graphql/mutations";
-import { DASHBOARD_LIST_CATEGORIES_QUERY } from "@/graphql/queries";
+import { useCreateCategory } from "@/hooks/use-create-category";
 
 export function AddCategoryDialog() {
   const [open, setOpen] = useState(false);
-
-  const [createCategory] = useMutation(CREATE_CATEGORY_MUTATION, {
-    onError: (error) => {
-      if (CombinedGraphQLErrors.is(error)) {
-        toast.error(error.errors[0].message);
-      } else {
-        toast.error("Não foi possível criar a categoria");
-      }
-    },
-    onCompleted: () => {
-      toast.success("Categoria criada com sucesso");
-    },
-    refetchQueries: [{ query: DASHBOARD_LIST_CATEGORIES_QUERY }],
-  });
+  const { createCategory } = useCreateCategory();
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

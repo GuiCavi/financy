@@ -1,14 +1,10 @@
-import { CombinedGraphQLErrors } from "@apollo/client";
-import { useMutation } from "@apollo/client/react";
 import { SquarePen } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { TransactionForm } from "@/forms/TransactionForm";
-import { UPDATE_TRANSACTION_MUTATION } from "@/graphql/mutations";
-import { DASHBOARD_LIST_CATEGORIES_QUERY, DASHBOARD_LIST_TRANSACTIONS_QUERY } from "@/graphql/queries";
+import { useUpdateTransaction } from "@/hooks/use-update-transaction";
 import type { DashboardListTransactionsOutput } from "@/types/transaction";
 
 type Transaction = NonNullable<DashboardListTransactionsOutput["listTransactions"]>[number];
@@ -20,24 +16,7 @@ interface EditTransactionDialogProps {
 
 export function EditTransactionDialog({ transaction, categories }: EditTransactionDialogProps) {
   const [open, setOpen] = useState(false);
-
-  const [updateTransaction] = useMutation(UPDATE_TRANSACTION_MUTATION, {
-    onError: (error) => {
-      if (CombinedGraphQLErrors.is(error)) {
-        toast.error(error.errors[0].message);
-      } else {
-        toast.error("Não foi possível atualizar a transação");
-      }
-    },
-    onCompleted: () => {
-      toast.success("Transação atualizada com sucesso");
-      setOpen(false);
-    },
-    refetchQueries: [
-      { query: DASHBOARD_LIST_TRANSACTIONS_QUERY },
-      { query: DASHBOARD_LIST_CATEGORIES_QUERY },
-    ],
-  });
+  const { updateTransaction } = useUpdateTransaction();
 
   // Convert the ISO/full date back into YYYY-MM-DD for the date input
   const formattedDate = transaction.date
