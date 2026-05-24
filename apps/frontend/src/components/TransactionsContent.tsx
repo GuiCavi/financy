@@ -301,7 +301,7 @@ export function TransactionsContent({ transactions, categories }: TransactionsCo
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex gap-4 bg-card border border-border p-4 rounded-xl shadow-sm">
+      <div className="flex gap-4 bg-card border border-border p-4 rounded-xl">
         <div className="flex flex-col gap-1 flex-1 min-w-[180px]">
           <span className="text-xs text-muted-foreground">Buscar</span>
           <InputGroup>
@@ -369,7 +369,7 @@ export function TransactionsContent({ transactions, categories }: TransactionsCo
         </div>
       </div>
 
-      <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
+      <div className="bg-card border border-border rounded-xl overflow-hidden">
         {totalItems === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
             <span className="text-sm text-muted-foreground font-medium">Nenhuma transação encontrada</span>

@@ -47,7 +47,7 @@ export function CategoriesContent({ categories }: { categories: Category[] }) {
       </div>
 
       {categories.length === 0 && (
-        <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
+        <div className="bg-card border border-border rounded-xl overflow-hidden">
           <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
             <span className="text-sm text-muted-foreground font-medium">Nenhuma categoria encontrada</span>
             <span className="text-xs text-muted-foreground/60 mt-1">Você pode adicionar uma nova categoria no botão acima</span>
