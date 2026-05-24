@@ -1,6 +1,7 @@
 import { useMutation } from "@apollo/client/react";
 import { toast } from "sonner";
 
+import { ME_QUERY } from "@/graphql";
 import { LOGIN_MUTATION } from "@/graphql/mutations";
 import { apolloClient } from "@/lib/apollo";
 import { useAuthStore } from "@/stores/auth";
@@ -18,6 +19,14 @@ export function useLogin() {
     onCompleted: (data) => {
       setToken(data.login.token);
     },
+    update: (cache, { data }) => {
+      if (!data?.login?.user) return;
+
+      cache.writeQuery({
+        query: ME_QUERY,
+        data: { me: { user: data.login.user }, fromCache: true },
+      });
+    },
   });
 
   const login = async (input: LoginInput) => {
@@ -32,7 +41,6 @@ export function useLogin() {
       });
 
       if (!data?.login) {
-        console.log("OI");
         throw new Error("Não foi possível registrar sua conta");
       }
 

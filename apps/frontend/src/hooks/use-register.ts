@@ -1,6 +1,7 @@
 import { useMutation } from "@apollo/client/react";
 import { toast } from "sonner";
 
+import { ME_QUERY } from "@/graphql";
 import { REGISTER_MUTATION } from "@/graphql/mutations";
 import { apolloClient } from "@/lib/apollo";
 import { useAuthStore } from "@/stores/auth";
@@ -18,6 +19,14 @@ export function useRegister() {
     onCompleted: (data) => {
       toast.success("Conta criada com sucesso");
       setToken(data.register.token);
+    },
+    update: (cache, { data }) => {
+      if (!data?.register?.user) return;
+
+      cache.writeQuery({
+        query: ME_QUERY,
+        data: { me: { user: data.register.user } },
+      });
     },
   });
 

@@ -12,7 +12,7 @@ import { useViewPassword } from "@/hooks/use-view-password";
 
 import type { SubmitEvent } from "react";
 
-export function LoginForm({ onSubmit }: { onSubmit: (value: LoginSchema) => void }) {
+export function LoginForm({ onSubmit }: { onSubmit: (value: LoginSchema) => Promise<void> }) {
   const navigate = useNavigate();
   const { fieldRef, toggleViewPassword, eyeOpen } = useViewPassword();
 
@@ -25,7 +25,7 @@ export function LoginForm({ onSubmit }: { onSubmit: (value: LoginSchema) => void
       onChange: loginSchema,
     },
     onSubmit: async ({ value }) => {
-      onSubmit(value);
+      await onSubmit(value);
     },
   });
 
