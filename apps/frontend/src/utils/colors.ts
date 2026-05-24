@@ -35,6 +35,11 @@ export const CategoryColorTexts: Record<CategoryColor, string> = {
 };
 
 export const TransactionTypeColorVariants: Record<TransactionType, string> = {
-  INCOME: "text-financy-green-dark dark:text-financy-green-base",
-  EXPENSE: "text-financy-red-dark dark:text-financy-red-base",
+  INCOME: "text-financy-green-base dark:text-financy-green-base",
+  EXPENSE: "text-financy-red-base dark:text-financy-red-base",
+};
+
+export const TransactionTypeBorderColor: Record<TransactionType, string> = {
+  INCOME: "data-active:border-financy-green-base dark:data-active:border-financy-green-base",
+  EXPENSE: "data-active:border-financy-red-base dark:data-active:border-financy-red-base",
 };
