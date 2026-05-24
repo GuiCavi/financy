@@ -1,4 +1,3 @@
-import { CombinedGraphQLErrors } from "@apollo/client";
 import { useMutation } from "@apollo/client/react";
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -29,6 +28,7 @@ import { CategoryColorVariants, TransactionTypeColorVariants } from "@/utils/col
 import { CategoryIconMap, TransactionTypeIconMap } from "@/utils/icons";
 import { formatDate } from "@/utils/text";
 
+import { handleGraphQLErrors } from "@/utils/graphql";
 import { TransactionAmount } from "./TransactionItem";
 
 type Transaction = NonNullable<DashboardListTransactionsOutput["listTransactions"]>[number];
@@ -86,11 +86,7 @@ export function TransactionsContent({ transactions, categories }: TransactionsCo
 
   const [deleteTransaction] = useMutation(DELETE_TRANSACTION_MUTATION, {
     onError: (error) => {
-      if (CombinedGraphQLErrors.is(error)) {
-        toast.error(error.errors[0].message);
-      } else {
-        toast.error("Não foi possível excluir a transação");
-      }
+      toast.error(handleGraphQLErrors(error, "Não foi possível excluir a transação"));
     },
     onCompleted: () => {
       toast.success("Transação excluída com sucesso");
