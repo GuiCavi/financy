@@ -1,13 +1,15 @@
-import { ChevronRight, CircleArrowDown, CircleArrowUp, Plus, Wallet } from "lucide-react";
+import { ArrowUpDown, ChevronRight, CircleArrowDown, CircleArrowUp, Plus, Tag, Wallet } from "lucide-react";
 import { type CSSProperties, Suspense } from "react";
 import { useNavigate } from "react-router";
 
+import { AddCategoryDialog } from "@/components/AddCategoryDialog";
 import { AddTransactionDialog } from "@/components/AddTransactionDialog";
 import { CategoryItem } from "@/components/CategoryItem";
 import { DashboardCard, DashboardCardAction, DashboardCardContent, DashboardCardHeader } from "@/components/DashboardCard";
 import { HighlightCard } from "@/components/HighlightCard";
 import { TransactionItem } from "@/components/TransactionItem";
 import { Button } from "@/components/ui/button";
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
 import { DashboardCategoriesContainer } from "@/containers/DashboardCategoriesContainer";
 import { DashboardTransactionsContainer } from "@/containers/DashboardTransactionsContainer";
 import { useDashboardHighhlights } from "@/hooks/use-dashboard-highlights";
@@ -26,7 +28,7 @@ export default function Dashboard() {
         <HighlightCard icon={<CircleArrowDown className="size-5 text-financy-red-base" />} title="Despesas do mês" value={formatMoney(summary.monthlyExpenseTotal)} />
       </div>
 
-      <div className="auto-grid gap-6" style={{ "--auto-grid-min": "300px", "--auto-grid-type": "auto-fit" } as CSSProperties}>
+      <div className="auto-grid gap-6 items-start" style={{ "--auto-grid-min": "300px", "--auto-grid-type": "auto-fit" } as CSSProperties}>
         <DashboardCard className="col-span-2">
           <DashboardCardHeader
             action={
@@ -41,7 +43,7 @@ export default function Dashboard() {
           <DashboardCardContent className="p-0">
             <Suspense fallback={<span>Carregando transações...</span>}>
               <DashboardTransactionsContainer>
-                {(transactions) => (
+                {(transactions) => transactions.length > 0 ? (
                   transactions.map((transaction) => (
                     <TransactionItem
                       key={transaction.id}
@@ -52,6 +54,16 @@ export default function Dashboard() {
                       category={transaction.category}
                     />
                   ))
+                ) : (
+                  <Empty>
+                    <EmptyHeader>
+                      <EmptyMedia variant="icon">
+                        <ArrowUpDown />
+                      </EmptyMedia>
+                      <EmptyTitle>Nenhuma transação encontrada</EmptyTitle>
+                      <EmptyDescription>Experimente mudar seus filtros de busca</EmptyDescription>
+                    </EmptyHeader>
+                  </Empty>
                 )}
               </DashboardTransactionsContainer>
             </Suspense>
@@ -87,7 +99,7 @@ export default function Dashboard() {
           <DashboardCardContent className="gap-5">
             <Suspense fallback={<span>Carregando categorias...</span>}>
               <DashboardCategoriesContainer>
-                {(categories) => (
+                {(categories) => categories.length > 0 ? (
                   categories.map((category) => (
                     <CategoryItem
                       key={category.id}
@@ -97,6 +109,21 @@ export default function Dashboard() {
                       color={category.color}
                     />
                   ))
+                ) : (
+                  <Empty>
+                    <EmptyHeader>
+                      <EmptyMedia variant="icon">
+                        <Tag />
+                      </EmptyMedia>
+                      <EmptyTitle>Nenhuma categoria ainda</EmptyTitle>
+                      <EmptyDescription>Experimente adicionar uma categoria</EmptyDescription>
+                    </EmptyHeader>
+                    <EmptyContent className="flex-row justify-center gap-2">
+                      <AddCategoryDialog>
+                        <Button variant="outline" size="sm">Nova categoria</Button>
+                      </AddCategoryDialog>
+                    </EmptyContent>
+                  </Empty>
                 )}
               </DashboardCategoriesContainer>
             </Suspense>

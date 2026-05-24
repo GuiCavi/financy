@@ -3,10 +3,14 @@ import { type CSSProperties, useMemo } from "react";
 
 import { CategoriesHighlightCard } from "@/components/CategoriesHighlightCard";
 import { CategoryCard } from "@/components/CategoryCard";
+import { Button } from "@/components/ui/button";
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
 import { cn } from "@/lib/utils";
 import type { DashboardListCategoriesOutput } from "@/types/category";
 import { CategoryColorTexts } from "@/utils/colors";
 import { CategoryIconMap } from "@/utils/icons";
+
+import { AddCategoryDialog } from "./AddCategoryDialog";
 
 type Category = NonNullable<DashboardListCategoriesOutput["listCategories"]>[number];
 
@@ -47,11 +51,21 @@ export function CategoriesContent({ categories }: { categories: Category[] }) {
       </div>
 
       {categories.length === 0 && (
-        <div className="bg-card border border-border rounded-xl overflow-hidden">
-          <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
-            <span className="text-sm text-muted-foreground font-medium">Nenhuma categoria encontrada</span>
-            <span className="text-xs text-muted-foreground/60 mt-1">Você pode adicionar uma nova categoria no botão acima</span>
-          </div>
+        <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
+          <Empty>
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <Tag />
+              </EmptyMedia>
+              <EmptyTitle>Nenhuma categoria encontrada</EmptyTitle>
+              <EmptyDescription>Experimente adicionar uma nova categoria</EmptyDescription>
+            </EmptyHeader>
+            <EmptyContent className="flex-row justify-center gap-2">
+              <AddCategoryDialog>
+                <Button variant="outline" size="sm">Nova categoria</Button>
+              </AddCategoryDialog>
+            </EmptyContent>
+          </Empty>
         </div>
       )}
 

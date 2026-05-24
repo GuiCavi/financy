@@ -111,7 +111,7 @@ export function RegisterForm({ onSubmit }: { onSubmit: (value: RegisterSchema) =
                 <InputGroup>
                   <InputGroupInput
                     ref={fieldRef}
-                    type="password"
+                    type={eyeOpen ? "text" : "password"}
                     id="password"
                     name="password"
                     value={field.state.value}

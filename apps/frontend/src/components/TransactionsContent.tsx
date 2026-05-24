@@ -1,13 +1,14 @@
 import { useMutation } from "@apollo/client/react";
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { cva, type VariantProps } from "class-variance-authority";
-import { Search, Trash } from "lucide-react";
+import { ArrowUpDown, Search, Trash } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { CategoryTag } from "@/components/CategoryItem";
 import { EditTransactionDialog } from "@/components/EditTransactionDialog";
 import { Button } from "@/components/ui/button";
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import {
   Pagination,
@@ -29,6 +30,7 @@ import { handleGraphQLErrors } from "@/utils/graphql";
 import { CategoryIconMap, TransactionTypeIconMap } from "@/utils/icons";
 import { formatDate } from "@/utils/text";
 
+import { AddTransactionDialog } from "./AddTransactionDialog";
 import { TransactionAmount } from "./TransactionItem";
 
 type Transaction = NonNullable<DashboardListTransactionsOutput["listTransactions"]>[number];
@@ -371,10 +373,20 @@ export function TransactionsContent({ transactions, categories }: TransactionsCo
 
       <div className="bg-card border border-border rounded-xl overflow-hidden">
         {totalItems === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
-            <span className="text-sm text-muted-foreground font-medium">Nenhuma transação encontrada</span>
-            <span className="text-xs text-muted-foreground/60 mt-1">Experimente mudar seus filtros de busca</span>
-          </div>
+          <Empty>
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <ArrowUpDown />
+              </EmptyMedia>
+              <EmptyTitle>Nenhuma transação encontrada</EmptyTitle>
+              <EmptyDescription>Experimente adicionar uma nova transação</EmptyDescription>
+            </EmptyHeader>
+            <EmptyContent className="flex-row justify-center gap-2">
+              <AddTransactionDialog categories={categories}>
+                <Button variant="outline" size="sm">Nova transação</Button>
+              </AddTransactionDialog>
+            </EmptyContent>
+          </Empty>
         ) : (
           <Table>
             <TableHeader>
