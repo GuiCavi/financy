@@ -15,6 +15,9 @@ import { CategoryResolver } from "./resolvers/category.resolver";
 import { TransactionResolver } from "./resolvers/transaction.resolver";
 import { UserResolver } from "./resolvers/user.resolver";
 
+import { createStorageAdapter } from "./upload/storage/storage-adapter.factory";
+import { createUploadRouter } from "./upload/upload.router";
+
 export async function bootstrap() {
   const app = express();
   app.use(cors({
@@ -33,6 +36,16 @@ export async function bootstrap() {
   });
 
   await server.start();
+
+  // Create storage adapter once at startup
+  const storageAdapter = createStorageAdapter();
+  const storagePath = env.AVATAR_STORAGE_PATH ?? "./uploads";
+
+  // Mount upload router BEFORE graphql middleware
+  app.use("/upload", createUploadRouter(storageAdapter));
+
+  // Serve static files from uploads directory
+  app.use("/uploads", express.static(storagePath));
 
   app.use("/graphql", express.json(), expressMiddleware(server, {
     context: buildContext,
