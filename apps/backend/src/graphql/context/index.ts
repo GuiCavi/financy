@@ -1,6 +1,6 @@
 import { ExpressContextFunctionArgument } from "@as-integrations/express5";
 
-import { verifyJwt } from "../../utils/jwt";
+import { extractUserIdFromAuthHeader } from "../../utils/auth";
 
 export type GraphqlContext = {
   user: string | undefined;
@@ -14,23 +14,12 @@ export const buildContext = async ({
   res,
 }: ExpressContextFunctionArgument): Promise<GraphqlContext> => {
   const authHeader = req.headers.authorization;
-  let user: string | undefined;
-  let token: string | undefined;
 
-  if (authHeader?.startsWith("Bearer ")) {
-    token = authHeader.substring("Bearer ".length);
-
-    try {
-      const payload = verifyJwt(token);
-      user = payload.id;
-    } catch (error) {
-      console.log({ error });
-    }
-  }
+  const extractedData = extractUserIdFromAuthHeader(authHeader);
 
   return {
-    user,
-    token,
+    user: extractedData.id,
+    token: extractedData.token,
     req,
     res,
   };
