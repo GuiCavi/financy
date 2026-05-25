@@ -120,6 +120,7 @@ input UpdateUserInput {
 }
 
 type UserModel {
+  avatarUrl: String
   createdAt: DateTimeISO!
   email: String!
   id: String!

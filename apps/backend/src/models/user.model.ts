@@ -14,6 +14,9 @@ export class UserModel {
   @Field(() => String)
   password!: string;
 
+  @Field(() => String, { nullable: true })
+  avatarUrl?: string | null;
+
   @Field(() => GraphQLISODateTime)
   createdAt!: Date;
 
