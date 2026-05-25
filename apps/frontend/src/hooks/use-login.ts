@@ -41,7 +41,7 @@ export function useLogin() {
       });
 
       if (!data?.login) {
-        throw new Error("Não foi possível registrar sua conta");
+        throw new Error("Não foi possível acessar sua conta");
       }
 
       apolloClient.resetStore();

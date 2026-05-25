@@ -3,10 +3,11 @@ import { CombinedGraphQLErrors } from "@apollo/client/errors";
 import { SetContextLink } from "@apollo/client/link/context";
 import { ErrorLink } from "@apollo/client/link/error";
 
+import { env } from "@/config/env";
 import { useAuthStore } from "@/stores/auth";
 
 const httpLink = new HttpLink({
-  uri: "http://localhost:4000/graphql",
+  uri: `${env.VITE_API_BASE_URL}/graphql`,
 });
 
 const authLink = new SetContextLink((prevContext) => {
