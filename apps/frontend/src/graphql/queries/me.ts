@@ -7,6 +7,7 @@ export const ME_QUERY = gql`
         id
         name
         email
+        avatarUrl
         createdAt
         updatedAt
       }
