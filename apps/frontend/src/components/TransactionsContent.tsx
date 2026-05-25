@@ -80,7 +80,7 @@ const ITEMS_PER_PAGE = 10;
 
 export function TransactionsContent({ transactions, categories }: TransactionsContentProps) {
   const [search, setSearch] = useState("");
-  const [typeFilter, setTypeFilter] = useState("ALL");
+  const [typeFilter, setTypeFilter] = useState<keyof typeof TypeLabels>("ALL");
   const [categoryFilter, setCategoryFilter] = useState("ALL");
   const [periodFilter, setPeriodFilter] = useState("ALL");
   const [currentPage, setCurrentPage] = useState(1);
@@ -196,7 +196,7 @@ export function TransactionsContent({ transactions, categories }: TransactionsCo
 
   const handleFilterChange = (filterType: "search" | "type" | "category" | "period", value: string) => {
     if (filterType === "search") setSearch(value);
-    if (filterType === "type") setTypeFilter(value);
+    if (filterType === "type") setTypeFilter(value as keyof typeof TypeLabels);
     if (filterType === "category") setCategoryFilter(value);
     if (filterType === "period") setPeriodFilter(value);
     setCurrentPage(1);

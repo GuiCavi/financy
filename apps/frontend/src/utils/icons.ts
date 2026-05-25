@@ -1,7 +1,5 @@
 import { Asterisk, BaggageClaim, BookOpen, BriefcaseBusiness, CarFront, CircleArrowDown, CircleArrowUp, Dumbbell, Gift, HeartPulse, House, Mailbox, PawPrint, PiggyBank, ReceiptText, ShoppingCart, Ticket, ToolCase, Utensils } from "lucide-react";
 
-import { TransactionValueType } from "@/types/transaction";
-
 export const CategoryIconMap = {
   mailbox: Mailbox,
   bookOpen: BookOpen,
@@ -23,6 +21,6 @@ export const CategoryIconMap = {
 } as const;
 
 export const TransactionTypeIconMap = {
-  [TransactionValueType.INCOME]: CircleArrowUp,
-  [TransactionValueType.EXPENSE]: CircleArrowDown,
+  INCOME: CircleArrowUp,
+  EXPENSE: CircleArrowDown,
 } as const;

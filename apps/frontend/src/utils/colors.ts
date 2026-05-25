@@ -1,5 +1,3 @@
-import type { TransactionType } from "@/types/transaction";
-
 export type CategoryColor = "blue" | "purple" | "pink" | "red" | "orange" | "yellow" | "green";
 
 export const CategoryColors: CategoryColor[] = ["blue", "purple", "pink", "red", "orange", "yellow", "green"];
@@ -34,12 +32,12 @@ export const CategoryColorTexts: Record<CategoryColor, string> = {
   red: "text-financy-red-base",
 };
 
-export const TransactionTypeColorVariants: Record<TransactionType, string> = {
+export const TransactionTypeColorVariants = {
   INCOME: "text-financy-green-base dark:text-financy-green-base",
   EXPENSE: "text-financy-red-base dark:text-financy-red-base",
-};
+} as const;
 
-export const TransactionTypeBorderColor: Record<TransactionType, string> = {
+export const TransactionTypeBorderColor = {
   INCOME: "data-active:border-financy-green-base dark:data-active:border-financy-green-base",
   EXPENSE: "data-active:border-financy-red-base dark:data-active:border-financy-red-base",
-};
+} as const;
