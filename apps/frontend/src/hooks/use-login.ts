@@ -17,6 +17,7 @@ export function useLogin() {
       toast.error(handleGraphQLErrors(error, "Não foi possível fazer login na sua conta"));
     },
     onCompleted: (data) => {
+      if (!data?.login?.user) return;
       setToken(data.login.token);
     },
     update: (cache, { data }) => {

@@ -17,6 +17,7 @@ export function useRegister() {
       toast.error(handleGraphQLErrors(error, "Não foi possível registrar sua conta"));
     },
     onCompleted: (data) => {
+      if (!data?.register?.user) return;
       toast.success("Conta criada com sucesso");
       setToken(data.register.token);
     },
