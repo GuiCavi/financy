@@ -18,7 +18,7 @@ importers:
         specifier: 5.9.2
         version: 5.9.2
 
-  apps/backend:
+  backend:
     dependencies:
       '@apollo/server':
         specifier: ^5.5.0
@@ -65,10 +65,10 @@ importers:
         version: 9.39.4
       '@financy/eslint-config':
         specifier: workspace:*
-        version: link:../../packages/eslint-config
+        version: link:../packages/eslint-config
       '@financy/typescript-config':
         specifier: workspace:*
-        version: link:../../packages/typescript-config
+        version: link:../packages/typescript-config
       '@types/better-sqlite3':
         specifier: ^7.6.13
         version: 7.6.13
@@ -100,7 +100,7 @@ importers:
         specifier: ^8.58.0
         version: 8.58.2(eslint@9.39.4(jiti@2.6.1))(typescript@6.0.2)
 
-  apps/frontend:
+  frontend:
     dependencies:
       '@apollo/client':
         specifier: ^4.1.7
@@ -180,10 +180,10 @@ importers:
         version: 9.39.4
       '@financy/eslint-config':
         specifier: workspace:*
-        version: link:../../packages/eslint-config
+        version: link:../packages/eslint-config
       '@financy/typescript-config':
         specifier: workspace:*
-        version: link:../../packages/typescript-config
+        version: link:../packages/typescript-config
       '@types/node':
         specifier: ^24.12.2
         version: 24.12.2
@@ -4737,7 +4737,7 @@ snapshots:
     dependencies:
       '@eslint/object-schema': 2.1.7
       debug: 4.4.3
-      minimatch: 3.1.2
+      minimatch: 3.1.5
     transitivePeerDependencies:
       - supports-color
 
@@ -4759,14 +4759,14 @@ snapshots:
 
   '@eslint/eslintrc@3.3.1':
     dependencies:
-      ajv: 6.12.6
+      ajv: 6.14.0
       debug: 4.4.3
       espree: 10.4.0
       globals: 14.0.0
       ignore: 5.3.2
       import-fresh: 3.3.1
       js-yaml: 4.1.0
-      minimatch: 3.1.2
+      minimatch: 3.1.5
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
@@ -6929,7 +6929,7 @@ snapshots:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.1.2
+      minimatch: 3.1.5
       once: 1.4.0
       path-is-absolute: 1.0.1
 

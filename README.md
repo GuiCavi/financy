@@ -16,10 +16,9 @@ A personal finance management app built as a monorepo. Users can register transa
 
 ```
 financy/
-├── apps/
-│   ├── backend/   # GraphQL API
-│   └── frontend/  # React SPA
-└── packages/      # Shared configs (eslint, typescript)
+├── backend/   # GraphQL API
+├── frontend/  # React SPA
+└── packages/  # Shared configs (eslint, typescript)
 ```
 
 ## Prerequisites
@@ -39,16 +38,16 @@ pnpm install
 
 ### 2. Configure environment variables
 
-**Backend** — copy and edit `apps/backend/.env`:
+**Backend** — copy and edit `backend/.env`:
 
 ```bash
-cp apps/backend/.env.example apps/backend/.env
+cp backend/.env.example backend/.env
 ```
 
-**Frontend** — copy and edit `apps/frontend/.env`:
+**Frontend** — copy and edit `frontend/.env`:
 
 ```bash
-cp apps/frontend/.env.example apps/frontend/.env
+cp frontend/.env.example frontend/.env
 ```
 
 See the [Environment variables](#environment-variables) section below for what each value means.
@@ -56,11 +55,12 @@ See the [Environment variables](#environment-variables) section below for what e
 ### 3. Set up the database
 
 ```bash
-cd apps/backend
+cd backend
 pnpm prisma migrate dev
+pnpm prisma generate
 ```
 
-This creates the local SQLite database at `apps/backend/dev.db`.
+This creates the local SQLite database at `backend/dev.db` and generates Prisma client types.
 
 ### 4. Run the dev servers
 
@@ -79,7 +79,7 @@ This starts both apps in parallel via Turborepo.
 
 ## Environment variables
 
-### `apps/backend/.env`
+### `backend/.env`
 
 | Variable | Description | Example |
 |---|---|---|
@@ -87,7 +87,7 @@ This starts both apps in parallel via Turborepo.
 | `JWT_SECRET` | Secret key used to sign JWT tokens | `change-me-in-production` |
 | `PORT` | Port the API server listens on | `4000` |
 
-### `apps/frontend/.env`
+### `frontend/.env`
 
 | Variable | Description | Example |
 |---|---|---|
